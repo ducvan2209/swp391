@@ -1,6 +1,5 @@
 package api;
 
-import model.GoogleAccount;
 import helper.KeyLoader;
 
 import java.io.IOException;
@@ -9,6 +8,8 @@ import org.apache.http.client.fluent.Request;
 import org.apache.http.client.fluent.Form;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+
+import controller.model.GoogleAccount;
 
 public class GoogleLogin {
 
