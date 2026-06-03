@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Request List - Employee</title>
+    <link rel="stylesheet" href="employee.css">
+</head>
+<body>
+    <div class="app-shell">
+        <aside class="sidebar">
+            <div class="brand"><div class="brand-mark">HR</div><div><strong>Better HR</strong><span>Employee Workspace</span></div></div>
+            <div class="mini-profile"><img src="employee-photo.svg" alt="Bui Thi F profile photo"><div><strong>Bui Thi F</strong><span>Developer · IT Department</span></div></div>
+            <nav class="nav" aria-label="Employee navigation">
+                <a href="MyProfile.html"><span class="nav-code">MP</span>My Profile</a>
+                <a href="EditProfile.html"><span class="nav-code">EP</span>Edit Profile</a>
+                <a class="active" href="RequestList.html"><span class="nav-code">RL</span>Request List</a>
+                <a href="CreateRequest.html"><span class="nav-code">CR</span>Create Request</a>
+                <a href="RequestDetail.html"><span class="nav-code">RD</span>Request Detail</a>
+                <a href="Payslip.html"><span class="nav-code">PS</span>Payslip</a>
+            </nav>
+            <div class="sidebar-note">Danh sách hiển thị MailRequest mẫu trong sql/data.sql, tập trung vào request của EmployeeID 6.</div>
+        </aside>
+
+        <main class="content">
+            <header class="topbar">
+                <div>
+                    <p class="eyebrow">Employee · MailRequest</p>
+                    <h1>Request List</h1>
+                    <p class="subtitle">Theo dõi đơn đã gửi, loại yêu cầu, thời gian nghỉ và trạng thái duyệt.</p>
+                </div>
+                <div class="actions">
+                    <a class="btn" href="../../RequestServlet">Reload</a>
+                    <a class="btn primary" href="CreateRequest.html">Create Request</a>
+                </div>
+            </header>
+
+            <section class="grid four">
+                <div class="stat"><span>My requests</span><strong>1</strong><small>EmployeeID 6</small></div>
+                <div class="stat"><span>Pending</span><strong>1</strong><small>Waiting approval</small></div>
+                <div class="stat"><span>Leave balance</span><strong>12 days</strong><small>Display sample</small></div>
+                <div class="stat"><span>Approver</span><strong>Do Van E</strong><small>Dept manager</small></div>
+            </section>
+
+            <section class="panel" style="margin-top: 18px;">
+                <div class="panel-header">
+                    <h2>My request history</h2>
+                    <span class="chip info">RequestDAO</span>
+                </div>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Request ID</th>
+                                <th>Request type</th>
+                                <th>Leave type</th>
+                                <th>Start date</th>
+                                <th>End date</th>
+                                <th>Reason</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>REQ-006</td>
+                                <td>Resignation</td>
+                                <td>N/A</td>
+                                <td>N/A</td>
+                                <td>N/A</td>
+                                <td>Resigning from position</td>
+                                <td><span class="chip warning">Pending</span></td>
+                                <td><a class="btn" href="RequestDetail.html">View</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section class="grid three" style="margin-top: 18px;">
+                <div class="insight-card"><span class="chip warning">Pending</span><strong>1 request needs manager review</strong><span class="subtitle">Data source: MailRequest row EmployeeID 6.</span></div>
+                <div class="insight-card"><span class="chip info">Policy</span><strong>Leave requests use Annual, Sick, Maternity, Unpaid, Other</strong><span class="subtitle">Matches MailRequest.LeaveType enum.</span></div>
+                <div class="insight-card"><span class="chip success">Employee</span><strong>Self-service request tracking</strong><span class="subtitle">Built for ProfileServlet and RequestServlet flow.</span></div>
+            </section>
+        </main>
+    </div>
+</body>
+</html>
