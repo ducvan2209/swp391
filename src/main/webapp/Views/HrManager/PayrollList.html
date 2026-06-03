@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payroll List | HRM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets1/css/hr-manager.css">
+</head>
+<body class="hr-manager-app" data-page="payroll-list" data-title="Payroll List">
+  <div class="hr-layout">
+    <aside class="hr-sidebar" id="hr-sidebar"></aside>
+    <div class="hr-main">
+      <header class="hr-topbar" id="hr-topbar"></header>
+      <main class="hr-content">
+        <section class="hr-hero-band hr-hero-band--compact">
+          <h3>Payroll Management</h3>
+          <a href="ApprovePayroll.html" class="hr-btn hr-btn-primary">Payroll Approval</a>
+        </section>
+
+        <div class="hr-stats-grid" id="payroll-stats"></div>
+
+        <div class="hr-card">
+          <h3 class="hr-card-title">Search and Filter</h3>
+          <div class="hr-toolbar">
+            <div class="hr-field">
+              <label for="filter-period">Pay Period (YYYY-MM)</label>
+              <select id="filter-period" name="payPeriod">
+                <option value="">All periods</option>
+                <option value="2025-10" selected>2025-10</option>
+                <option value="2025-09">2025-09</option>
+              </select>
+            </div>
+            <div class="hr-field">
+              <label for="filter-dept">Department</label>
+              <select id="filter-dept" name="departmentId">
+                <option value="">All departments</option>
+                <option value="Human Resources">Human Resources</option>
+                <option value="Finance">Finance</option>
+                <option value="IT Department">IT Department</option>
+              </select>
+            </div>
+            <div class="hr-field">
+              <label for="filter-status">Status</label>
+              <select id="filter-status" name="status">
+                <option value="">All statuses</option>
+              </select>
+            </div>
+            <div class="hr-field">
+              <label for="filter-search">Employee name</label>
+              <input type="search" id="filter-search" name="employeeName" placeholder="Search by name...">
+            </div>
+            <button type="button" class="hr-btn hr-btn-secondary" id="btn-reset-filter">Reset</button>
+          </div>
+        </div>
+
+        <div class="hr-card">
+          <h3 class="hr-card-title">Payroll Records</h3>
+          <div class="hr-table-wrap">
+            <table class="hr-table" id="payroll-table">
+              <thead>
+                <tr>
+                  <th>Payroll ID</th>
+                  <th>Employee ID</th>
+                  <th>Employee</th>
+                  <th>Department</th>
+                  <th>Pay Period</th>
+                  <th>Base Salary</th>
+                  <th>Allowance</th>
+                  <th>Bonus</th>
+                  <th>Deduction</th>
+                  <th>Net Salary</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="payroll-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+  <script src="../../assets1/js/hr-manager.js"></script>
+  <script>
+    (function () {
+      var statusSelect = document.getElementById("filter-status");
+      HrManager.PAYROLL_STATUSES.forEach(function (s) {
+        statusSelect.innerHTML += '<option value="' + s + '">' + s + "</option>";
+      });
+
+      function render() {
+        var period = document.getElementById("filter-period").value;
+        var dept = document.getElementById("filter-dept").value;
+        var status = document.getElementById("filter-status").value;
+        var search = (document.getElementById("filter-search").value || "").toLowerCase();
+
+        var rows = HrManager.MOCK_PAYROLLS.filter(function (p) {
+          var emp = HrManager.getEmployeeForPayroll(p);
+          if (period && p.payPeriod !== period) return false;
+          if (dept && emp.dept !== dept) return false;
+          if (status && p.status !== status) return false;
+          if (search && emp.name.toLowerCase().indexOf(search) === -1) return false;
+          return true;
+        });
+
+        document.getElementById("payroll-tbody").innerHTML = rows
+          .map(function (p) {
+            var emp = HrManager.getEmployeeForPayroll(p);
+            return (
+              "<tr>" +
+              "<td>" + p.payrollId + "</td>" +
+              "<td>" + p.employeeId + "</td>" +
+              "<td><strong>" + HrManager.escapeHtml(emp.name) + "</strong><br><small>" + HrManager.escapeHtml(emp.position) + "</small></td>" +
+              "<td>" + HrManager.escapeHtml(emp.dept) + "</td>" +
+              "<td>" + p.payPeriod + "</td>" +
+              "<td>" + HrManager.formatCurrency(p.baseSalary) + "</td>" +
+              "<td>" + HrManager.formatCurrency(p.allowance) + "</td>" +
+              "<td>" + HrManager.formatCurrency(p.bonus) + "</td>" +
+              "<td>" + HrManager.formatCurrency(p.deduction) + "</td>" +
+              "<td><strong>" + HrManager.formatCurrency(p.netSalary) + "</strong></td>" +
+              "<td>" + HrManager.statusBadge(p.status) + "</td>" +
+              '<td class="actions">' +
+              '<a class="hr-btn hr-btn-sm hr-btn-secondary" href="PayrollDetail.html?id=' + p.payrollId + '">Detail</a>' +
+              (p.status === "Pending"
+                ? '<a class="hr-btn hr-btn-sm hr-btn-primary" href="ApprovePayroll.html?id=' + p.payrollId + '">Approve</a>'
+                : "") +
+              "</td></tr>"
+            );
+          })
+          .join("");
+
+        var pending = HrManager.MOCK_PAYROLLS.filter(function (p) { return p.status === "Pending"; });
+        var totalNet = HrManager.MOCK_PAYROLLS.reduce(function (s, p) { return s + p.netSalary; }, 0);
+        document.getElementById("payroll-stats").innerHTML =
+          '<div class="hr-stat-card accent-mdb"><div class="label">Total records</div><div class="value">' + HrManager.MOCK_PAYROLLS.length + '</div></div>' +
+          '<div class="hr-stat-card"><div class="label">Pending approval</div><div class="value">' + pending.length + '</div></div>' +
+          '<div class="hr-stat-card"><div class="label">Total net salary</div><div class="value" style="font-size:1.8rem">' + HrManager.formatCurrency(totalNet) + "</div></div>";
+      }
+
+      ["filter-period", "filter-dept", "filter-status", "filter-search"].forEach(function (id) {
+        document.getElementById(id).addEventListener("input", render);
+        document.getElementById(id).addEventListener("change", render);
+      });
+      document.getElementById("btn-reset-filter").addEventListener("click", function () {
+        document.getElementById("filter-period").value = "";
+        document.getElementById("filter-dept").value = "";
+        document.getElementById("filter-status").value = "";
+        document.getElementById("filter-search").value = "";
+        render();
+      });
+      render();
+    })();
+  </script>
+</body>
+</html>

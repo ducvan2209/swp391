@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recruitment Report | HRM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets1/css/hr-manager.css">
+</head>
+<body class="hr-manager-app" data-page="recruitment-report" data-title="Recruitment Report">
+  <div class="hr-layout">
+    <aside class="hr-sidebar" id="hr-sidebar"></aside>
+    <div class="hr-main">
+      <header class="hr-topbar" id="hr-topbar"></header>
+      <main class="hr-content">
+        <section class="hr-hero-band hr-hero-band--compact">
+          <h3>Recruitment Activity Report</h3>
+          <button type="button" class="hr-btn hr-btn-primary" id="btn-export-rec">Export Report</button>
+        </section>
+
+        <div class="hr-toolbar">
+          <div class="hr-field">
+            <label for="rec-filter-status">Job Post Status</label>
+            <select id="rec-filter-status" name="jobStatus">
+              <option value="">All</option>
+              <option value="New">New</option>
+              <option value="Waiting">Waiting</option>
+              <option value="Applied">Applied</option>
+              <option value="Rejected">Rejected</option>
+            </select>
+          </div>
+          <div class="hr-field">
+            <label for="rec-filter-location">Location</label>
+            <select id="rec-filter-location" name="location">
+              <option value="">All locations</option>
+              <option value="Hanoi">Hanoi</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="hr-stats-grid">
+          <div class="hr-stat-card accent-mdb">
+            <div class="label">Active job posts</div>
+            <div class="value" id="rec-open">0</div>
+          </div>
+          <div class="hr-stat-card">
+            <div class="label">Total applicants</div>
+            <div class="value" id="rec-applicants">0</div>
+          </div>
+          <div class="hr-stat-card">
+            <div class="label">Processing applications</div>
+            <div class="value" id="rec-processing">0</div>
+          </div>
+          <div class="hr-stat-card">
+            <div class="label">Evaluations submitted</div>
+            <div class="value" id="rec-eval-rate">0%</div>
+          </div>
+        </div>
+
+        <div class="hr-detail-grid">
+          <div class="hr-card">
+            <h3 class="hr-card-title">Job Postings</h3>
+            <div class="hr-table-wrap">
+              <table class="hr-table">
+                <thead>
+                  <tr>
+                    <th>Recruitment ID</th>
+                    <th>Job Title</th>
+                    <th>Location</th>
+                    <th>Salary</th>
+                    <th>Requirement</th>
+                    <th>Applicants</th>
+                    <th>Status</th>
+                    <th>Posted Date</th>
+                  </tr>
+                </thead>
+                <tbody id="recruitment-jobs"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="hr-card">
+            <h3 class="hr-card-title">Applicant Pipeline</h3>
+            <div class="hr-chart-bars" id="funnel-chart"></div>
+          </div>
+        </div>
+
+        <div class="hr-card">
+          <h3 class="hr-card-title">Applicant Register</h3>
+          <div class="hr-table-wrap">
+            <table class="hr-table">
+              <thead>
+                <tr>
+                  <th>Guest ID</th>
+                  <th>Full Name</th>
+                  <th>Email</th>
+                  <th>Phone</th>
+                  <th>Recruitment ID</th>
+                  <th>Job Title</th>
+                  <th>Applied Date</th>
+                  <th>CV</th>
+                  <th>Interview Result</th>
+                  <th>HR Recommendation</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="recruitment-candidates"></tbody>
+            </table>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+  <script src="../../assets1/js/hr-manager.js"></script>
+  <script>
+    (function () {
+      function render() {
+        var statusFilter = document.getElementById("rec-filter-status").value;
+        var locFilter = document.getElementById("rec-filter-location").value;
+        var jobs = HrManager.MOCK_RECRUITMENTS.filter(function (j) {
+          if (statusFilter && j.status !== statusFilter) return false;
+          if (locFilter && j.location !== locFilter) return false;
+          return true;
+        });
+        var candidates = HrManager.MOCK_CANDIDATES;
+
+        document.getElementById("rec-open").textContent = jobs.length;
+        document.getElementById("rec-applicants").textContent = candidates.length;
+        var processing = candidates.filter(function (c) { return c.status === "Processing"; }).length;
+        document.getElementById("rec-processing").textContent = processing;
+        var scored = candidates.filter(HrManager.hasEvaluation).length;
+        document.getElementById("rec-eval-rate").textContent =
+          candidates.length ? Math.round((scored / candidates.length) * 100) + "%" : "0%";
+
+        document.getElementById("recruitment-jobs").innerHTML = jobs.map(function (j) {
+          return (
+            "<tr><td>" + j.recruitmentId + "</td><td><strong>" + HrManager.escapeHtml(j.jobTitle) + "</strong></td>" +
+            "<td>" + HrManager.escapeHtml(j.location) + "</td><td>" + HrManager.formatCurrency(j.salary) + "</td>" +
+            "<td>" + HrManager.escapeHtml(j.requirement) + "</td><td>" + j.applicant + "</td>" +
+            "<td>" + HrManager.statusBadge(j.status) + "</td><td>" + HrManager.formatDate(j.postedDate) + "</td></tr>"
+          );
+        }).join("");
+
+        var funnel = {
+          Processing: processing,
+          Evaluated: scored,
+          "Recommend hire": candidates.filter(function (c) {
+            return c.evaluation && /recommend hire/i.test(c.evaluation.hrRecommendation);
+          }).length,
+        };
+        var maxF = Math.max.apply(null, Object.values(funnel).concat([1]));
+        document.getElementById("funnel-chart").innerHTML = Object.keys(funnel).map(function (label) {
+          var val = funnel[label];
+          return '<div class="hr-chart-bar"><div class="val">' + val + '</div><div class="bar" style="height:' + (Math.round((val / maxF) * 140) || 8) + 'px"></div><div class="label">' + label + "</div></div>";
+        }).join("");
+
+        document.getElementById("recruitment-candidates").innerHTML = candidates.map(function (c) {
+          var ev = c.evaluation;
+          return (
+            "<tr><td>" + c.guestId + "</td><td>" + HrManager.escapeHtml(c.fullName) + "</td>" +
+            "<td>" + HrManager.escapeHtml(c.email) + "</td><td>" + HrManager.escapeHtml(c.phone) + "</td>" +
+            "<td>" + c.recruitmentId + "</td><td>" + HrManager.escapeHtml(c.jobTitle) + "</td>" +
+            "<td>" + HrManager.formatDate(c.appliedDate) + "</td><td>" + HrManager.escapeHtml(c.cv) + "</td>" +
+            "<td>" + (ev ? HrManager.escapeHtml(ev.interviewResult) : "-") + "</td>" +
+            "<td>" + (ev ? HrManager.escapeHtml(ev.hrRecommendation) : "-") + "</td>" +
+            "<td>" + HrManager.statusBadge(c.status) + "</td></tr>"
+          );
+        }).join("");
+      }
+
+      document.getElementById("rec-filter-status").addEventListener("change", render);
+      document.getElementById("rec-filter-location").addEventListener("change", render);
+      document.getElementById("btn-export-rec").addEventListener("click", function () {
+        HrManager.showToast("Report exported successfully.");
+      });
+      render();
+    })();
+  </script>
+</body>
+</html>

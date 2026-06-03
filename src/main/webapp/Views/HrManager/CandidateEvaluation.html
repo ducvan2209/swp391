@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Application Evaluation | HRM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets1/css/hr-manager.css">
+</head>
+<body class="hr-manager-app" data-page="candidate-evaluation" data-title="Application Evaluation">
+  <div class="hr-layout">
+    <aside class="hr-sidebar" id="hr-sidebar"></aside>
+    <div class="hr-main">
+      <header class="hr-topbar" id="hr-topbar"></header>
+      <main class="hr-content">
+        <section class="hr-hero-band hr-hero-band--compact">
+          <h3>Application Evaluation</h3>
+        </section>
+
+        <div class="hr-detail-grid">
+          <div class="hr-card">
+            <h3 class="hr-card-title">Applicants</h3>
+            <div class="hr-table-wrap">
+              <table class="hr-table">
+                <thead>
+                  <tr>
+                    <th>Guest ID</th>
+                    <th>Full Name</th>
+                    <th>Job Title</th>
+                    <th>Evaluation</th>
+                    <th>Status</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody id="candidate-pick-list"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="hr-card">
+            <h3 class="hr-card-title">Applicant Profile</h3>
+            <form id="applicant-profile-form">
+              <input type="hidden" id="guest-id" name="guestId" value="1">
+              <div class="hr-form-grid">
+                <div class="hr-field">
+                  <label for="field-fullname">Full Name</label>
+                  <input type="text" id="field-fullname" name="fullName" class="hr-readonly" readonly>
+                </div>
+                <div class="hr-field">
+                  <label for="field-email">Email</label>
+                  <input type="email" id="field-email" name="email" class="hr-readonly" readonly>
+                </div>
+                <div class="hr-field">
+                  <label for="field-phone">Phone</label>
+                  <input type="text" id="field-phone" name="phone" class="hr-readonly" readonly>
+                </div>
+                <div class="hr-field">
+                  <label for="field-cv">CV</label>
+                  <input type="text" id="field-cv" name="cv" class="hr-readonly" readonly>
+                </div>
+                <div class="hr-field">
+                  <label for="field-recruitment">Recruitment ID / Job Title</label>
+                  <input type="text" id="field-recruitment" name="recruitmentId" class="hr-readonly" readonly>
+                </div>
+                <div class="hr-field">
+                  <label for="field-applied">Applied Date</label>
+                  <input type="text" id="field-applied" name="appliedDate" class="hr-readonly" readonly>
+                </div>
+                <div class="hr-field">
+                  <label for="field-status">Application Status</label>
+                  <input type="text" id="field-status" name="status" class="hr-readonly" readonly>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <div class="hr-card">
+          <h3 class="hr-card-title">HR Evaluation</h3>
+          <div id="evaluation-block"></div>
+          <div class="hr-approval-actions" style="margin-top:2rem">
+            <a href="ApproveCandidate.html" id="link-approve" class="hr-btn hr-btn-primary">Final Decision</a>
+            <a href="#" id="link-view-cv" class="hr-btn hr-btn-secondary" target="_blank" rel="noopener">View CV</a>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+  <script src="../../assets1/js/hr-manager.js"></script>
+  <script>
+    (function () {
+      var currentId = parseInt(HrManager.getQueryParam("guestId") || "1", 10);
+
+      function loadCandidate(id) {
+        var c = HrManager.getCandidateById(id);
+        if (!c) return;
+        currentId = id;
+        document.getElementById("guest-id").value = id;
+        document.getElementById("field-fullname").value = c.fullName;
+        document.getElementById("field-email").value = c.email;
+        document.getElementById("field-phone").value = c.phone;
+        document.getElementById("field-cv").value = c.cv;
+        document.getElementById("field-recruitment").value = "#" + c.recruitmentId + " - " + c.jobTitle;
+        document.getElementById("field-applied").value = HrManager.formatDate(c.appliedDate);
+        document.getElementById("field-status").value = c.status;
+        document.getElementById("evaluation-block").innerHTML = HrManager.renderEvaluationFields(c.evaluation);
+        document.getElementById("link-approve").href = "ApproveCandidate.html?guestId=" + id;
+        document.getElementById("link-view-cv").href = "#cv-" + encodeURIComponent(c.cv);
+        renderPickList();
+      }
+
+      function renderPickList() {
+        document.getElementById("candidate-pick-list").innerHTML = HrManager.MOCK_CANDIDATES.map(function (c) {
+          var evLabel = HrManager.hasEvaluation(c)
+            ? "Submitted (" + c.evaluation.overallScore + "/5)"
+            : '<span class="hr-badge hr-badge-pending">Missing</span>';
+          return (
+            "<tr><td>" + c.guestId + "</td><td><strong>" + HrManager.escapeHtml(c.fullName) + "</strong></td>" +
+            "<td>" + HrManager.escapeHtml(c.jobTitle) + "</td><td>" + evLabel + "</td>" +
+            "<td>" + HrManager.statusBadge(c.status) + "</td>" +
+            '<td><button type="button" class="hr-btn hr-btn-sm hr-btn-secondary" data-guest="' + c.guestId + '">View</button></td></tr>"
+          );
+        }).join("");
+        document.querySelectorAll("[data-guest]").forEach(function (btn) {
+          btn.addEventListener("click", function () {
+            loadCandidate(parseInt(btn.getAttribute("data-guest"), 10));
+          });
+        });
+      }
+
+      renderPickList();
+      loadCandidate(currentId);
+    })();
+  </script>
+</body>
+</html>

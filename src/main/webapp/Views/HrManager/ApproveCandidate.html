@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Approve Candidate | HRM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets1/css/hr-manager.css">
+</head>
+<body class="hr-manager-app" data-page="approve-candidate" data-title="Approve Candidate">
+  <div class="hr-layout">
+    <aside class="hr-sidebar" id="hr-sidebar"></aside>
+    <div class="hr-main">
+      <header class="hr-topbar" id="hr-topbar"></header>
+      <main class="hr-content">
+        <section class="hr-hero-band hr-hero-band--compact">
+          <h3>Approve or Reject Candidate</h3>
+          <a href="CandidateEvaluation.html" class="hr-btn hr-btn-secondary" style="border-color:#fff;color:#fff">View Evaluations</a>
+        </section>
+
+        <div class="hr-stats-grid" id="candidate-stats"></div>
+
+        <div class="hr-card">
+          <h3 class="hr-card-title">Candidates Awaiting Decision</h3>
+          <div class="hr-table-wrap">
+            <table class="hr-table">
+              <thead>
+                <tr>
+                  <th>Guest ID</th>
+                  <th>Full Name</th>
+                  <th>Email / Phone</th>
+                  <th>Job Title</th>
+                  <th>HR Recommendation</th>
+                  <th>Score</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="approve-candidate-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="hr-card" id="decision-panel" style="display:none">
+          <h3 class="hr-card-title">Decision: <span id="decision-name"></span></h3>
+          <div id="decision-eval-summary"></div>
+          <form id="decision-form">
+            <input type="hidden" id="decision-guest-id" name="guestId" value="">
+            <div class="hr-field" style="margin-top:1.6rem">
+              <label for="rejection-reason" class="required">Rejection Reason</label>
+              <textarea id="rejection-reason" name="rejectionReason" rows="3" placeholder="Required when rejecting a candidate."></textarea>
+            </div>
+            <div class="hr-approval-actions">
+              <button type="button" class="hr-btn hr-btn-primary" id="btn-hire">Approve (Hire)</button>
+              <button type="button" class="hr-btn hr-btn-danger-filled" id="btn-reject-candidate">Reject</button>
+              <a href="CandidateEvaluation.html" class="hr-btn hr-btn-secondary">View Evaluation</a>
+            </div>
+          </form>
+        </div>
+      </main>
+    </div>
+  </div>
+  <script src="../../assets1/js/hr-manager.js"></script>
+  <script>
+    (function () {
+      var list = HrManager.MOCK_CANDIDATES.filter(function (c) { return c.status === "Processing"; });
+      var withEval = list.filter(HrManager.hasEvaluation);
+      var recommend = list.filter(function (c) { return c.evaluation && c.evaluation.overallScore >= 4; });
+
+      document.getElementById("candidate-stats").innerHTML =
+        '<div class="hr-stat-card accent-mdb"><div class="label">Processing</div><div class="value">' + list.length + '</div></div>' +
+        '<div class="hr-stat-card"><div class="label">With evaluation</div><div class="value">' + withEval.length + '</div></div>' +
+        '<div class="hr-stat-card"><div class="label">Score 4 or above</div><div class="value">' + recommend.length + '</div></div>';
+
+      function openDecision(guestId) {
+        var c = HrManager.getCandidateById(guestId);
+        if (!c) return;
+        document.getElementById("decision-panel").style.display = "block";
+        document.getElementById("decision-name").textContent = c.fullName;
+        document.getElementById("decision-guest-id").value = guestId;
+        if (!HrManager.hasEvaluation(c)) {
+          document.getElementById("decision-eval-summary").innerHTML =
+            '<div class="hr-alert hr-alert-warning">' + HrManager.escapeHtml(HrManager.MSG.NO_EVALUATION) + "</div>";
+        } else {
+          document.getElementById("decision-eval-summary").innerHTML =
+            '<div class="hr-selection-summary"><strong>HR Recommendation:</strong> ' +
+            HrManager.escapeHtml(c.evaluation.hrRecommendation) + "</div>" +
+            HrManager.renderEvaluationFields(c.evaluation);
+        }
+        document.getElementById("decision-panel").scrollIntoView({ behavior: "smooth" });
+      }
+
+      document.getElementById("approve-candidate-tbody").innerHTML = list.map(function (c) {
+        var rec = c.evaluation ? c.evaluation.hrRecommendation : "-";
+        var score = c.evaluation ? c.evaluation.overallScore + "/5" : "-";
+        return (
+          "<tr><td>" + c.guestId + "</td><td><strong>" + HrManager.escapeHtml(c.fullName) + "</strong></td>" +
+          "<td>" + HrManager.escapeHtml(c.email) + "<br>" + HrManager.escapeHtml(c.phone) + "</td>" +
+          "<td>" + HrManager.escapeHtml(c.jobTitle) + "</td><td>" + HrManager.escapeHtml(rec) + "</td><td>" + score + "</td>" +
+          "<td>" + HrManager.statusBadge(c.status) + "</td>" +
+          '<td class="actions">' +
+          '<button type="button" class="hr-btn hr-btn-sm hr-btn-primary" data-decide="' + c.guestId + '">Decide</button>' +
+          '<a class="hr-btn hr-btn-sm hr-btn-secondary" href="CandidateEvaluation.html?guestId=' + c.guestId + '">Evaluation</a>' +
+          "</td></tr>"
+        );
+      }).join("");
+
+      document.querySelectorAll("[data-decide]").forEach(function (btn) {
+        btn.addEventListener("click", function () { openDecision(parseInt(btn.getAttribute("data-decide"), 10)); });
+      });
+
+      document.getElementById("btn-hire").addEventListener("click", function () {
+        var id = document.getElementById("decision-guest-id").value;
+        if (!id) return;
+        if (!HrManager.hasEvaluation(HrManager.getCandidateById(id))) {
+          HrManager.showToast(HrManager.MSG.NO_EVALUATION);
+          return;
+        }
+        HrManager.showToast(HrManager.MSG.CANDIDATE_APPROVED);
+      });
+
+      document.getElementById("btn-reject-candidate").addEventListener("click", function () {
+        if (!document.getElementById("decision-guest-id").value) return;
+        if (!document.getElementById("rejection-reason").value.trim()) {
+          HrManager.showToast(HrManager.MSG.REJECT_REASON_REQUIRED);
+          return;
+        }
+        HrManager.showToast(HrManager.MSG.CANDIDATE_REJECTED);
+      });
+
+      var preselect = HrManager.getQueryParam("guestId");
+      if (preselect) openDecision(parseInt(preselect, 10));
+    })();
+  </script>
+</body>
+</html>

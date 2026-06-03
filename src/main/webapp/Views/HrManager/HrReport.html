@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HR Report | HRM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets1/css/hr-manager.css">
+</head>
+<body class="hr-manager-app" data-page="hr-report" data-title="HR Report">
+  <div class="hr-layout">
+    <aside class="hr-sidebar" id="hr-sidebar"></aside>
+    <div class="hr-main">
+      <header class="hr-topbar" id="hr-topbar"></header>
+      <main class="hr-content">
+        <section class="hr-hero-band hr-hero-band--compact">
+          <h3>Payroll Summary Report</h3>
+          <button type="button" class="hr-btn hr-btn-primary" id="btn-export">Export Report</button>
+        </section>
+
+        <div class="hr-toolbar">
+          <div class="hr-field">
+            <label for="report-period">Report Period (YYYY-MM)</label>
+            <select id="report-period" name="payPeriod">
+              <option value="2025-10" selected>2025-10</option>
+              <option value="2025-09">2025-09</option>
+            </select>
+          </div>
+          <div class="hr-field">
+            <label for="report-dept">Department</label>
+            <select id="report-dept" name="department">
+              <option value="">All departments</option>
+              <option value="Human Resources">Human Resources</option>
+              <option value="Finance">Finance</option>
+              <option value="IT Department">IT Department</option>
+            </select>
+          </div>
+          <div class="hr-field">
+            <label for="report-status">Payroll Status</label>
+            <select id="report-status" name="status">
+              <option value="">All</option>
+              <option value="Pending">Pending</option>
+              <option value="Approved">Approved</option>
+              <option value="Rejected">Rejected</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="hr-stats-grid" id="hr-report-stats"></div>
+
+        <div class="hr-detail-grid">
+          <div class="hr-card">
+            <h3 class="hr-card-title">Net Salary by Department</h3>
+            <div class="hr-chart-bars" id="dept-chart"></div>
+          </div>
+          <div class="hr-card">
+            <h3 class="hr-card-title">Cost Structure</h3>
+            <ul class="hr-detail-list" id="cost-breakdown"></ul>
+          </div>
+        </div>
+
+        <div class="hr-card">
+          <h3 class="hr-card-title">Payroll Detail Report</h3>
+          <div class="hr-table-wrap">
+            <table class="hr-table">
+              <thead>
+                <tr>
+                  <th>Employee ID</th>
+                  <th>Employee</th>
+                  <th>Department</th>
+                  <th>Pay Period</th>
+                  <th>Base Salary</th>
+                  <th>Allowance</th>
+                  <th>Bonus</th>
+                  <th>Deduction</th>
+                  <th>Net Salary</th>
+                  <th>Working Days</th>
+                  <th>Leave Days</th>
+                  <th>Overtime (h)</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="hr-report-table"></tbody>
+            </table>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+  <script src="../../assets1/js/hr-manager.js"></script>
+  <script>
+    (function () {
+      function filteredPayrolls() {
+        var dept = document.getElementById("report-dept").value;
+        var status = document.getElementById("report-status").value;
+        return HrManager.MOCK_PAYROLLS.filter(function (p) {
+          var emp = HrManager.getEmployeeForPayroll(p);
+          if (dept && emp.dept !== dept) return false;
+          if (status && p.status !== status) return false;
+          return true;
+        });
+      }
+
+      function render() {
+        var rows = filteredPayrolls();
+        var byDept = {};
+        var base = 0, allow = 0, bonus = 0, deduct = 0, net = 0;
+        rows.forEach(function (p) {
+          var emp = HrManager.getEmployeeForPayroll(p);
+          base += p.baseSalary;
+          allow += p.allowance;
+          bonus += p.bonus;
+          deduct += p.deduction;
+          net += p.netSalary;
+          byDept[emp.dept] = (byDept[emp.dept] || 0) + p.netSalary;
+        });
+        var maxBar = Math.max.apply(null, Object.values(byDept).concat([1]));
+
+        document.getElementById("hr-report-stats").innerHTML =
+          '<div class="hr-stat-card accent-mdb"><div class="label">Total net payroll</div><div class="value" style="font-size:2rem">' + HrManager.formatCurrency(net) + '</div></div>' +
+          '<div class="hr-stat-card"><div class="label">Records in report</div><div class="value">' + rows.length + '</div></div>' +
+          '<div class="hr-stat-card"><div class="label">Pending approval</div><div class="value">' + rows.filter(function (p) { return p.status === "Pending"; }).length + '</div></div>' +
+          '<div class="hr-stat-card"><div class="label">Average net salary</div><div class="value" style="font-size:1.8rem">' + (rows.length ? HrManager.formatCurrency(net / rows.length) : "-") + "</div></div>";
+
+        document.getElementById("dept-chart").innerHTML = Object.keys(byDept).map(function (dept) {
+          var val = byDept[dept];
+          return '<div class="hr-chart-bar"><div class="val">' + (val / 1e6).toFixed(1) + 'M</div><div class="bar" style="height:' + Math.round((val / maxBar) * 160) + 'px"></div><div class="label">' + HrManager.escapeHtml(dept) + "</div></div>";
+        }).join("");
+
+        document.getElementById("cost-breakdown").innerHTML =
+          "<li><span>Base Salary</span><span>" + HrManager.formatCurrency(base) + "</span></li>" +
+          "<li><span>Allowance</span><span>" + HrManager.formatCurrency(allow) + "</span></li>" +
+          "<li><span>Bonus</span><span>" + HrManager.formatCurrency(bonus) + "</span></li>" +
+          "<li><span>Deduction</span><span>- " + HrManager.formatCurrency(deduct) + "</span></li>" +
+          '<li class="total"><span>Total Net Salary</span><span>' + HrManager.formatCurrency(net) + "</span></li>";
+
+        document.getElementById("hr-report-table").innerHTML = rows.map(function (p) {
+          var emp = HrManager.getEmployeeForPayroll(p);
+          return (
+            "<tr><td>" + p.employeeId + "</td><td>" + HrManager.escapeHtml(emp.name) + "</td><td>" + HrManager.escapeHtml(emp.dept) + "</td>" +
+            "<td>" + p.payPeriod + "</td><td>" + HrManager.formatCurrency(p.baseSalary) + "</td><td>" + HrManager.formatCurrency(p.allowance) + "</td>" +
+            "<td>" + HrManager.formatCurrency(p.bonus) + "</td><td>" + HrManager.formatCurrency(p.deduction) + "</td><td><strong>" + HrManager.formatCurrency(p.netSalary) + "</strong></td>" +
+            "<td>" + p.workingDays + "</td><td>" + p.leaveDays + "</td><td>" + p.overtimeHours + "</td><td>" + HrManager.statusBadge(p.status) + "</td></tr>"
+          );
+        }).join("");
+      }
+
+      ["report-dept", "report-status", "report-period"].forEach(function (id) {
+        document.getElementById(id).addEventListener("change", render);
+      });
+      document.getElementById("btn-export").addEventListener("click", function () {
+        HrManager.showToast("Report exported successfully.");
+      });
+      render();
+    })();
+  </script>
+</body>
+</html>

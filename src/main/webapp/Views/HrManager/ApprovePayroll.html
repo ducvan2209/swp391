@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Approve Payroll | HRM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets1/css/hr-manager.css">
+</head>
+<body class="hr-manager-app" data-page="approve-payroll" data-title="Approve Payroll">
+  <div class="hr-layout">
+    <aside class="hr-sidebar" id="hr-sidebar"></aside>
+    <div class="hr-main">
+      <header class="hr-topbar" id="hr-topbar"></header>
+      <main class="hr-content">
+        <section class="hr-hero-band hr-hero-band--compact">
+          <h3>Payroll Approval</h3>
+        </section>
+
+        <div class="hr-detail-grid">
+          <div class="hr-card">
+            <h3 class="hr-card-title">Pending Payroll Records</h3>
+            <div class="hr-table-wrap">
+              <table class="hr-table">
+                <thead>
+                  <tr>
+                    <th>Select</th>
+                    <th>Payroll ID</th>
+                    <th>Employee</th>
+                    <th>Pay Period</th>
+                    <th>Net Salary</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody id="approve-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="hr-approval-panel">
+            <h3 class="hr-card-title" style="margin-top:0">Approval Decision</h3>
+            <div id="approval-summary" class="hr-selection-summary">Select a payroll record to review.</div>
+            <input type="hidden" id="selected-payroll-id" name="payrollId" value="">
+
+            <div class="hr-field" style="margin-top:1.6rem">
+              <label for="approval-comment" class="required">Comment</label>
+              <textarea id="approval-comment" name="comment" rows="4" placeholder="Required when rejecting. Optional when approving."></textarea>
+            </div>
+
+            <div class="hr-approval-actions">
+              <button type="button" class="hr-btn hr-btn-primary" id="btn-approve">Approve</button>
+              <button type="button" class="hr-btn hr-btn-danger-filled" id="btn-reject">Reject</button>
+              <a href="PayrollList.html" class="hr-btn hr-btn-secondary">Cancel</a>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+  <script src="../../assets1/js/hr-manager.js"></script>
+  <script>
+    (function () {
+      var selectedId = HrManager.getQueryParam("id");
+      var pending = HrManager.MOCK_PAYROLLS.filter(function (p) { return p.status === "Pending"; });
+
+      function selectPayroll(id) {
+        selectedId = String(id);
+        document.getElementById("selected-payroll-id").value = id;
+        var p = HrManager.getPayrollById(id);
+        var emp = HrManager.getEmployeeForPayroll(p);
+        document.getElementById("approval-summary").innerHTML =
+          "<strong>Payroll #" + p.payrollId + "</strong> - " + HrManager.escapeHtml(emp.name) +
+          " - Period " + p.payPeriod + " - Net " + HrManager.formatCurrency(p.netSalary) + " " +
+          HrManager.statusBadge(p.status);
+        renderTable();
+      }
+
+      function renderTable() {
+        document.getElementById("approve-tbody").innerHTML = pending.map(function (p) {
+          var emp = HrManager.getEmployeeForPayroll(p);
+          var checked = String(p.payrollId) === String(selectedId) ? " checked" : "";
+          return (
+            "<tr>" +
+            '<td><input type="radio" name="pick-payroll" value="' + p.payrollId + '"' + checked + "></td>" +
+            "<td>" + p.payrollId + "</td>" +
+            "<td>" + HrManager.escapeHtml(emp.name) + "</td>" +
+            "<td>" + p.payPeriod + "</td>" +
+            "<td>" + HrManager.formatCurrency(p.netSalary) + "</td>" +
+            '<td><button type="button" class="hr-btn hr-btn-sm hr-btn-secondary" data-pick="' + p.payrollId + '">Select</button></td></tr>"
+          );
+        }).join("");
+
+        document.querySelectorAll("[data-pick]").forEach(function (btn) {
+          btn.addEventListener("click", function () { selectPayroll(btn.getAttribute("data-pick")); });
+        });
+        document.querySelectorAll('input[name="pick-payroll"]').forEach(function (radio) {
+          radio.addEventListener("change", function () { if (radio.checked) selectPayroll(radio.value); });
+        });
+      }
+
+      document.getElementById("btn-approve").addEventListener("click", function () {
+        if (!document.getElementById("selected-payroll-id").value) {
+          HrManager.showToast("Please select a payroll record.");
+          return;
+        }
+        HrManager.showToast(HrManager.MSG.PAYROLL_APPROVED);
+      });
+
+      document.getElementById("btn-reject").addEventListener("click", function () {
+        if (!document.getElementById("selected-payroll-id").value) {
+          HrManager.showToast("Please select a payroll record.");
+          return;
+        }
+        if (!document.getElementById("approval-comment").value.trim()) {
+          HrManager.showToast(HrManager.MSG.REJECT_REASON_REQUIRED);
+          return;
+        }
+        HrManager.showToast(HrManager.MSG.PAYROLL_REJECTED);
+      });
+
+      renderTable();
+      if (selectedId) selectPayroll(selectedId);
+      else if (pending.length) selectPayroll(pending[0].payrollId);
+    })();
+  </script>
+</body>
+</html>

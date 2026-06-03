@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payroll Detail | HRM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets1/css/hr-manager.css">
+</head>
+<body class="hr-manager-app" data-page="payroll-detail" data-title="Payroll Detail">
+  <div class="hr-layout">
+    <aside class="hr-sidebar" id="hr-sidebar"></aside>
+    <div class="hr-main">
+      <header class="hr-topbar" id="hr-topbar"></header>
+      <main class="hr-content">
+        <a href="PayrollList.html" class="hr-back-link">Back to Payroll List</a>
+        <div id="payroll-detail-root"></div>
+      </main>
+    </div>
+  </div>
+  <script src="../../assets1/js/hr-manager.js"></script>
+  <script>
+    (function () {
+      var id = HrManager.getQueryParam("id") || "1";
+      var payroll = HrManager.getPayrollById(id);
+      var root = document.getElementById("payroll-detail-root");
+
+      if (!payroll) {
+        root.innerHTML =
+          '<div class="hr-card"><p>Payroll record not found.</p><a href="PayrollList.html" class="hr-btn hr-btn-secondary">Payroll List</a></div>';
+        return;
+      }
+
+      var emp = HrManager.getEmployeeForPayroll(payroll);
+      var payslipNote =
+        payroll.status === "Approved" || payroll.status === "Paid"
+          ? "Available"
+          : '<span class="hr-badge hr-badge-pending">' + HrManager.escapeHtml(HrManager.MSG.PAYSLIP_NA) + "</span>";
+
+      root.innerHTML =
+        '<section class="hr-hero-band">' +
+        "<div><h3>Payroll #" + payroll.payrollId + "</h3>" +
+        '<p class="hr-hero-meta">' + HrManager.escapeHtml(emp.name) + " &middot; " + HrManager.escapeHtml(emp.dept) + " &middot; " + payroll.payPeriod + "</p></div>" +
+        "<div>" + HrManager.statusBadge(payroll.status) +
+        (payroll.status === "Pending"
+          ? ' <a href="ApprovePayroll.html?id=' + payroll.payrollId + '" class="hr-btn hr-btn-primary" style="margin-left:1rem">Approve Payroll</a>'
+          : "") +
+        "</div></section>" +
+
+        '<div class="hr-detail-grid">' +
+        '<div class="hr-card"><h3 class="hr-card-title">Employee Information</h3>' +
+        '<ul class="hr-detail-list">' +
+        "<li><span>Employee ID</span><span>" + payroll.employeeId + "</span></li>" +
+        "<li><span>Full Name</span><span>" + HrManager.escapeHtml(emp.name) + "</span></li>" +
+        "<li><span>Position</span><span>" + HrManager.escapeHtml(emp.position) + "</span></li>" +
+        "<li><span>Department</span><span>" + HrManager.escapeHtml(emp.dept) + "</span></li>" +
+        "<li><span>Employment Status</span><span>" + HrManager.escapeHtml(emp.status) + "</span></li>" +
+        "</ul></div>" +
+
+        '<div class="hr-card"><h3 class="hr-card-title">Attendance Summary</h3>' +
+        '<ul class="hr-detail-list">' +
+        "<li><span>Working Days</span><span>" + payroll.workingDays + "</span></li>" +
+        "<li><span>Leave Days</span><span>" + payroll.leaveDays + "</span></li>" +
+        "<li><span>Overtime Hours</span><span>" + payroll.overtimeHours + " h</span></li>" +
+        "</ul></div></div>" +
+
+        '<div class="hr-card"><h3 class="hr-card-title">Salary Breakdown</h3>' +
+        '<ul class="hr-detail-list">' +
+        "<li><span>Pay Period</span><span>" + payroll.payPeriod + "</span></li>" +
+        "<li><span>Base Salary</span><span>" + HrManager.formatCurrency(payroll.baseSalary) + "</span></li>" +
+        "<li><span>Allowance</span><span>" + HrManager.formatCurrency(payroll.allowance) + "</span></li>" +
+        "<li><span>Bonus</span><span>" + HrManager.formatCurrency(payroll.bonus) + "</span></li>" +
+        "<li><span>Deduction</span><span>- " + HrManager.formatCurrency(payroll.deduction) + "</span></li>" +
+        '<li class="total"><span>Net Salary</span><span>' + HrManager.formatCurrency(payroll.netSalary) + "</span></li>" +
+        "</ul></div>" +
+
+        '<div class="hr-card"><h3 class="hr-card-title">Approval and Payslip</h3>' +
+        '<ul class="hr-detail-list">' +
+        "<li><span>Status</span><span>" + HrManager.statusBadge(payroll.status) + "</span></li>" +
+        "<li><span>Approved By</span><span>" + (payroll.approvedBy ? "#" + payroll.approvedBy : "-") + "</span></li>" +
+        "<li><span>Approved Date</span><span>" + HrManager.formatDate(payroll.approvedDate) + "</span></li>" +
+        "<li><span>Payslip Access</span><span>" + payslipNote + "</span></li>" +
+        "</ul></div>";
+    })();
+  </script>
+</body>
+</html>
