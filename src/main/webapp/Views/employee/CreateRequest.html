@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Request - Employee</title>
+    <link rel="stylesheet" href="employee.css">
+</head>
+<body>
+    <div class="app-shell">
+        <aside class="sidebar">
+            <div class="brand"><div class="brand-mark">HR</div><div><strong>Better HR</strong><span>Employee Workspace</span></div></div>
+            <div class="mini-profile"><img src="employee-photo.svg" alt="Bui Thi F profile photo"><div><strong>Bui Thi F</strong><span>Developer · IT Department</span></div></div>
+            <nav class="nav" aria-label="Employee navigation">
+                <a href="MyProfile.html"><span class="nav-code">MP</span>My Profile</a>
+                <a href="EditProfile.html"><span class="nav-code">EP</span>Edit Profile</a>
+                <a href="RequestList.html"><span class="nav-code">RL</span>Request List</a>
+                <a class="active" href="CreateRequest.html"><span class="nav-code">CR</span>Create Request</a>
+                <a href="RequestDetail.html"><span class="nav-code">RD</span>Request Detail</a>
+                <a href="Payslip.html"><span class="nav-code">PS</span>Payslip</a>
+            </nav>
+            <div class="sidebar-note">Form dùng đúng enum của bảng MailRequest: Leave, Resignation, Petition.</div>
+        </aside>
+
+        <main class="content">
+            <header class="topbar">
+                <div>
+                    <p class="eyebrow">CreateRequestServlet</p>
+                    <h1>Create Request</h1>
+                    <p class="subtitle">Tạo yêu cầu mới cho EmployeeID 6 và gửi về RequestDAO.</p>
+                </div>
+                <div class="actions">
+                    <a class="btn" href="RequestList.html">Back to List</a>
+                    <button class="btn primary" type="submit" form="requestForm">Submit</button>
+                </div>
+            </header>
+
+            <section class="grid two">
+                <article class="panel">
+                    <div class="panel-header"><h2>Request information</h2><span class="chip info">MailRequest</span></div>
+                    <div class="panel-body">
+                        <form id="requestForm" action="../../CreateRequestServlet" method="post">
+                            <input type="hidden" name="employeeId" value="6">
+                            <div class="form-grid">
+                                <div class="field">
+                                    <label for="requestType">Request type</label>
+                                    <select id="requestType" name="requestType" required>
+                                        <option selected>Leave</option>
+                                        <option>Resignation</option>
+                                        <option>Petition</option>
+                                    </select>
+                                </div>
+                                <div class="field">
+                                    <label for="leaveType">Leave type</label>
+                                    <select id="leaveType" name="leaveType">
+                                        <option selected>Annual</option>
+                                        <option>Sick</option>
+                                        <option>Maternity</option>
+                                        <option>Unpaid</option>
+                                        <option>Other</option>
+                                    </select>
+                                </div>
+                                <div class="field"><label for="startDate">Start date</label><input id="startDate" name="startDate" type="date"></div>
+                                <div class="field"><label for="endDate">End date</label><input id="endDate" name="endDate" type="date"></div>
+                                <div class="field full"><label for="reason">Reason</label><textarea id="reason" name="reason" placeholder="Nhập lý do tạo request..." required></textarea></div>
+                            </div>
+                            <div class="actions">
+                                <button class="btn" type="reset">Clear</button>
+                                <button class="btn primary" type="submit">Submit Request</button>
+                            </div>
+                        </form>
+                    </div>
+                </article>
+
+                <article class="panel">
+                    <div class="panel-header"><h2>Employee context</h2><span class="chip success">Active</span></div>
+                    <div class="panel-body">
+                        <div class="meta-list">
+                            <div class="item"><span>Employee</span><strong>Bui Thi F · Developer</strong></div>
+                            <div class="item"><span>Department</span><strong>IT Department</strong></div>
+                            <div class="item"><span>Manager</span><strong>Do Van E</strong></div>
+                            <div class="item"><span>Latest request</span><strong>REQ-006 · Resignation · Pending</strong></div>
+                        </div>
+                    </div>
+                </article>
+            </section>
+        </main>
+    </div>
+</body>
+</html>
