@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Request Detail - Employee</title>
+    <link rel="stylesheet" href="employee.css">
+</head>
+<body>
+    <div class="app-shell">
+        <aside class="sidebar">
+            <div class="brand"><div class="brand-mark">HR</div><div><strong>Better HR</strong><span>Employee Workspace</span></div></div>
+            <div class="mini-profile"><img src="employee-photo.svg" alt="Bui Thi F profile photo"><div><strong>Bui Thi F</strong><span>Developer · IT Department</span></div></div>
+            <nav class="nav" aria-label="Employee navigation">
+                <a href="MyProfile.html"><span class="nav-code">MP</span>My Profile</a>
+                <a href="EditProfile.html"><span class="nav-code">EP</span>Edit Profile</a>
+                <a href="RequestList.html"><span class="nav-code">RL</span>Request List</a>
+                <a href="CreateRequest.html"><span class="nav-code">CR</span>Create Request</a>
+                <a class="active" href="RequestDetail.html"><span class="nav-code">RD</span>Request Detail</a>
+                <a href="Payslip.html"><span class="nav-code">PS</span>Payslip</a>
+            </nav>
+            <div class="sidebar-note">Chi tiết RequestID 6 từ bảng MailRequest, EmployeeID 6.</div>
+        </aside>
+
+        <main class="content">
+            <header class="topbar">
+                <div>
+                    <p class="eyebrow">RequestDetailServlet</p>
+                    <h1>Request Detail</h1>
+                    <p class="subtitle">Thông tin chi tiết yêu cầu và tiến trình duyệt.</p>
+                </div>
+                <div class="actions">
+                    <a class="btn" href="../../RequestDetailServlet?requestId=6">Reload</a>
+                    <a class="btn primary" href="RequestList.html">Back to List</a>
+                </div>
+            </header>
+
+            <section class="grid two">
+                <article class="panel">
+                    <div class="panel-header">
+                        <h2>REQ-006</h2>
+                        <span class="chip warning">Pending</span>
+                    </div>
+                    <div class="panel-body">
+                        <div class="detail-list">
+                            <div class="item"><span>Employee</span><strong>Bui Thi F · EMP-006</strong></div>
+                            <div class="item"><span>Department</span><strong>IT Department</strong></div>
+                            <div class="item"><span>Request type</span><strong>Resignation</strong></div>
+                            <div class="item"><span>Leave type</span><strong>N/A</strong></div>
+                            <div class="item"><span>Start date</span><strong>N/A</strong></div>
+                            <div class="item"><span>End date</span><strong>N/A</strong></div>
+                            <div class="item" style="grid-column: 1 / -1;"><span>Reason</span><strong>Resigning from position</strong></div>
+                            <div class="item" style="grid-column: 1 / -1;"><span>Approved by</span><strong>Waiting for department manager review</strong></div>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="panel">
+                    <div class="panel-header">
+                        <h2>Approval timeline</h2>
+                    </div>
+                    <div class="panel-body">
+                        <div class="timeline">
+                            <div class="timeline-step">
+                                <div class="dot"></div>
+                                <div class="item"><span>Submitted</span><strong>Request stored in MailRequest table</strong></div>
+                            </div>
+                            <div class="timeline-step">
+                                <div class="dot"></div>
+                                <div class="item"><span>Department manager</span><strong>Do Van E reviews request for IT Department</strong></div>
+                            </div>
+                            <div class="timeline-step">
+                                <div class="dot"></div>
+                                <div class="item"><span>HR confirmation</span><strong>Waiting after manager decision</strong></div>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </section>
+        </main>
+    </div>
+</body>
+</html>
