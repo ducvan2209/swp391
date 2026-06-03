@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile - Employee</title>
+    <link rel="stylesheet" href="employee.css">
+</head>
+<body>
+    <div class="app-shell">
+        <aside class="sidebar">
+            <div class="brand">
+                <div class="brand-mark">HR</div>
+                <div><strong>Better HR</strong><span>Employee Workspace</span></div>
+            </div>
+            <div class="mini-profile">
+                <img src="employee-photo.svg" alt="Bui Thi F profile photo">
+                <div><strong>Bui Thi F</strong><span>Developer · IT Department</span></div>
+            </div>
+            <nav class="nav" aria-label="Employee navigation">
+                <a class="active" href="MyProfile.html"><span class="nav-code">MP</span>My Profile</a>
+                <a href="EditProfile.html"><span class="nav-code">EP</span>Edit Profile</a>
+                <a href="RequestList.html"><span class="nav-code">RL</span>Request List</a>
+                <a href="CreateRequest.html"><span class="nav-code">CR</span>Create Request</a>
+                <a href="RequestDetail.html"><span class="nav-code">RD</span>Request Detail</a>
+                <a href="Payslip.html"><span class="nav-code">PS</span>Payslip</a>
+            </nav>
+            <div class="sidebar-note">Dữ liệu hiển thị theo EmployeeID 6 trong sql/data.sql: nhân viên role Employee, phòng IT Department.</div>
+        </aside>
+
+        <main class="content">
+            <section class="profile-cover">
+                <div class="profile-cover-content">
+                    <img class="profile-photo" src="employee-photo.svg" alt="Bui Thi F profile photo">
+                    <div class="profile-title">
+                        <p class="eyebrow">Employee · EMP-006</p>
+                        <h1>Bui Thi F</h1>
+                        <p class="subtitle">Developer tại IT Department · Full-time contract · Active</p>
+                        <div class="profile-badges">
+                            <span class="chip success">Active</span>
+                            <span class="chip info">Employee role</span>
+                            <span class="chip dark">dev_f</span>
+                        </div>
+                    </div>
+                    <div class="actions">
+                        <a class="btn" href="../../ProfileServlet">Refresh</a>
+                        <a class="btn primary" href="EditProfile.html">Edit Profile</a>
+                    </div>
+                </div>
+            </section>
+
+            <section class="info-strip">
+                <div class="item"><span>Email</span><strong>f@company.com</strong></div>
+                <div class="item"><span>Phone</span><strong>0906666666</strong></div>
+                <div class="item"><span>Location</span><strong>Da Nang</strong></div>
+                <div class="item"><span>Manager</span><strong>Do Van E</strong></div>
+            </section>
+
+            <section class="grid four" style="margin-top: 18px;">
+                <div class="stat"><span>Base salary</span><strong>16,000,000</strong><small>Contract table</small></div>
+                <div class="stat"><span>Allowance</span><strong>200,000</strong><small>Transportation · 2025-10</small></div>
+                <div class="stat"><span>Working hours</span><strong>8.0h</strong><small>Attendance 2025-09-01</small></div>
+                <div class="stat"><span>Overtime</span><strong>0.5h</strong><small>Attendance 2025-09-01</small></div>
+            </section>
+
+            <section class="grid two" style="margin-top: 18px;">
+                <article class="panel">
+                    <div class="panel-header">
+                        <h2>Personal information</h2>
+                        <span class="chip success">Verified</span>
+                    </div>
+                    <div class="panel-body">
+                        <div class="detail-list">
+                            <div class="item"><span>Full name</span><strong>Bui Thi F</strong></div>
+                            <div class="item"><span>Gender</span><strong>Female</strong></div>
+                            <div class="item"><span>Date of birth</span><strong>1997-12-15</strong></div>
+                            <div class="item"><span>Status</span><strong>Active</strong></div>
+                            <div class="item"><span>Address</span><strong>Da Nang</strong></div>
+                            <div class="item"><span>Employment period</span><strong>2021-2025</strong></div>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="panel">
+                    <div class="panel-header">
+                        <h2>Work profile</h2>
+                        <span class="chip info">IT Department</span>
+                    </div>
+                    <div class="panel-body">
+                        <div class="meta-list">
+                            <div class="item"><span>Position</span><strong>Developer</strong></div>
+                            <div class="item"><span>Contract</span><strong>Full-time · Start 2023-01-01 · Ongoing</strong></div>
+                            <div class="item"><span>Department manager</span><strong>Do Van E · IT Manager</strong></div>
+                            <div class="item"><span>System account</span><strong>Username dev_f · Role Employee</strong></div>
+                        </div>
+                    </div>
+                </article>
+            </section>
+
+            <section class="grid two" style="margin-top: 18px;">
+                <article class="panel">
+                    <div class="panel-header">
+                        <h2>Attendance snapshot</h2>
+                        <span class="chip info">Attendance</span>
+                    </div>
+                    <div class="panel-body">
+                        <div class="insight-card">
+                            <span class="subtitle">2025-09-01 · Check-in 08:00 · Check-out 17:30</span>
+                            <strong>8.0 working hours + 0.5 overtime hours</strong>
+                            <div class="progress"><span style="width: 94%;"></span></div>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="panel">
+                    <div class="panel-header">
+                        <h2>Latest request</h2>
+                        <span class="chip warning">Pending</span>
+                    </div>
+                    <div class="panel-body">
+                        <div class="insight-card">
+                            <span class="subtitle">RequestID 6 · Resignation · MailRequest table</span>
+                            <strong>Resigning from position</strong>
+                            <a class="btn" href="RequestDetail.html">View request detail</a>
+                        </div>
+                    </div>
+                </article>
+            </section>
+        </main>
+    </div>
+</body>
+</html>
