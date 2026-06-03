@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile - Employee</title>
+    <link rel="stylesheet" href="employee.css">
+</head>
+<body>
+    <div class="app-shell">
+        <aside class="sidebar">
+            <div class="brand"><div class="brand-mark">HR</div><div><strong>Better HR</strong><span>Employee Workspace</span></div></div>
+            <div class="mini-profile"><img src="employee-photo.svg" alt="Bui Thi F profile photo"><div><strong>Bui Thi F</strong><span>Developer · IT Department</span></div></div>
+            <nav class="nav" aria-label="Employee navigation">
+                <a href="MyProfile.html"><span class="nav-code">MP</span>My Profile</a>
+                <a class="active" href="EditProfile.html"><span class="nav-code">EP</span>Edit Profile</a>
+                <a href="RequestList.html"><span class="nav-code">RL</span>Request List</a>
+                <a href="CreateRequest.html"><span class="nav-code">CR</span>Create Request</a>
+                <a href="RequestDetail.html"><span class="nav-code">RD</span>Request Detail</a>
+                <a href="Payslip.html"><span class="nav-code">PS</span>Payslip</a>
+            </nav>
+            <div class="sidebar-note">Nhân viên chỉ chỉnh thông tin liên hệ; phòng ban, chức vụ và hợp đồng do HR quản lý.</div>
+        </aside>
+
+        <main class="content">
+            <header class="topbar">
+                <div>
+                    <p class="eyebrow">Employee · EMP-006</p>
+                    <h1>Edit Profile</h1>
+                    <p class="subtitle">Cập nhật dữ liệu Employee qua UpdateProfileServlet.</p>
+                </div>
+                <div class="actions">
+                    <a class="btn" href="MyProfile.html">Cancel</a>
+                    <button class="btn primary" type="submit" form="profileForm">Save Changes</button>
+                </div>
+            </header>
+
+            <section class="grid two">
+                <article class="panel">
+                    <div class="panel-header"><h2>Editable information</h2><span class="chip info">EmployeeDAO</span></div>
+                    <div class="panel-body">
+                        <form id="profileForm" action="../../UpdateProfileServlet" method="post">
+                            <input type="hidden" name="employeeId" value="6">
+                            <div class="form-grid">
+                                <div class="field"><label for="fullName">Full name</label><input id="fullName" name="fullName" type="text" value="Bui Thi F" required></div>
+                                <div class="field"><label for="gender">Gender</label><select id="gender" name="gender"><option>Male</option><option selected>Female</option><option>Other</option></select></div>
+                                <div class="field"><label for="dob">Date of birth</label><input id="dob" name="dob" type="date" value="1997-12-15"></div>
+                                <div class="field"><label for="phone">Phone</label><input id="phone" name="phone" type="tel" value="0906666666" required></div>
+                                <div class="field"><label for="email">Email</label><input id="email" name="email" type="email" value="f@company.com" required></div>
+                                <div class="field"><label for="employmentPeriod">Employment period</label><input id="employmentPeriod" name="employmentPeriod" type="text" value="2021-2025" readonly></div>
+                                <div class="field full"><label for="address">Address</label><textarea id="address" name="address">Da Nang</textarea></div>
+                            </div>
+                            <div class="actions">
+                                <button class="btn" type="reset">Reset</button>
+                                <button class="btn primary" type="submit">Save Changes</button>
+                            </div>
+                        </form>
+                    </div>
+                </article>
+
+                <article class="panel">
+                    <div class="panel-header"><h2>Locked by HR</h2><span class="chip dark">Read only</span></div>
+                    <div class="panel-body">
+                        <div class="meta-list">
+                            <div class="item"><span>Department</span><strong>IT Department</strong></div>
+                            <div class="item"><span>Position</span><strong>Developer</strong></div>
+                            <div class="item"><span>Contract type</span><strong>Full-time</strong></div>
+                            <div class="item"><span>Base salary</span><strong>16,000,000 VND</strong></div>
+                            <div class="item"><span>Contract note</span><strong>New staff · Ongoing contract</strong></div>
+                        </div>
+                    </div>
+                </article>
+            </section>
+        </main>
+    </div>
+</body>
+</html>
