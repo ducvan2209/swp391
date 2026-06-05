@@ -2,9 +2,9 @@
 $ErrorActionPreference = "Stop"
 
 $ProjectRoot = Split-Path -Parent $PSScriptRoot
-$TomcatHome  = "C:\Program Files\Apache Software Foundation\Tomcat 10.1"
-$Maven       = "C:\Program Files\NetBeans-17\netbeans\java\maven\bin\mvn.cmd"
-$JavaHome    = "C:\Program Files\Eclipse Adoptium\jdk-11.0.31.11-hotspot"
+$TomcatHome  = "D:\apache-tomcat-10.1.55-windows-x64\apache-tomcat-10.1.55"
+$Maven       = "mvn"
+$JavaHome    = "C:\Program Files\Java\jdk-26.0.1"
 
 $env:JAVA_HOME = $JavaHome
 Write-Host "==> 1. Build WAR..." -ForegroundColor Cyan

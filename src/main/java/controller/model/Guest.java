@@ -11,6 +11,7 @@ public class Guest {
     private String status;
     private Integer recruitmentId;
     private LocalDateTime appliedDate;
+    private Recruitment recruitment;
 
     public Guest() {}
 
@@ -89,6 +90,14 @@ public class Guest {
 
     public void setAppliedDate(LocalDateTime appliedDate) {
         this.appliedDate = appliedDate;
+    }
+
+    public Recruitment getRecruitment() {
+        return recruitment;
+    }
+
+    public void setRecruitment(Recruitment recruitment) {
+        this.recruitment = recruitment;
     }
 
     @Override

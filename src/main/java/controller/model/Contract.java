@@ -6,6 +6,8 @@ import java.time.LocalDate;
 public class Contract {
     private int contractId;
     private int employeeId;
+    private String employeeName;
+    private String departmentName;
     private LocalDate startDate;
     private LocalDate endDate;
     private BigDecimal baseSalary;
@@ -41,6 +43,35 @@ public class Contract {
         this.status = status;
     }
 
+    /** Full constructor including joined fields (used by DAO row mapper). */
+    public Contract(
+            int contractId,
+            int employeeId,
+            String employeeName,
+            String departmentName,
+            LocalDate startDate,
+            LocalDate endDate,
+            BigDecimal baseSalary,
+            BigDecimal allowance,
+            String contractType,
+            String notes,
+            LocalDate createdAt,
+            String status
+    ) {
+        this.contractId     = contractId;
+        this.employeeId     = employeeId;
+        this.employeeName   = employeeName;
+        this.departmentName = departmentName;
+        this.startDate      = startDate;
+        this.endDate        = endDate;
+        this.baseSalary     = baseSalary;
+        this.allowance      = allowance;
+        this.contractType   = contractType;
+        this.notes          = notes;
+        this.createdAt      = createdAt;
+        this.status         = status;
+    }
+
     public int getContractId() {
         return contractId;
     }
@@ -56,6 +87,12 @@ public class Contract {
     public void setEmployeeId(int employeeId) {
         this.employeeId = employeeId;
     }
+
+    public String getEmployeeName() { return employeeName; }
+    public void setEmployeeName(String employeeName) { this.employeeName = employeeName; }
+
+    public String getDepartmentName() { return departmentName; }
+    public void setDepartmentName(String departmentName) { this.departmentName = departmentName; }
 
     public LocalDate getStartDate() {
         return startDate;
@@ -130,6 +167,8 @@ public class Contract {
                 ", endDate=" + endDate +
                 ", baseSalary=" + baseSalary +
                 ", allowance=" + allowance +
+                ", employeeName=" + employeeName +
+                ", departmentName=" + departmentName +
                 ", contractType=" + contractType +
                 ", createdAt=" + createdAt +
                 ", status=" + status +

@@ -14,6 +14,8 @@ public class Employee {
     private Integer departmentId;
     private String status;
     private String position;
+    private String departmentName;
+    private Contract latestContract;
 
     public Employee() {}
 
@@ -28,7 +30,8 @@ public class Employee {
             String employmentPeriod,
             Integer departmentId,
             String status,
-            String position
+            String position,
+            String departmentName
     ) {
         this.employeeId = employeeId;
         this.fullName = fullName;
@@ -41,6 +44,7 @@ public class Employee {
         this.departmentId = departmentId;
         this.status = status;
         this.position = position;
+        this.departmentName = departmentName;
     }
 
     public int getEmployeeId() {
@@ -131,6 +135,22 @@ public class Employee {
         this.position = position;
     }
 
+    public String getDepartmentName() {
+        return departmentName;
+    }
+
+    public void setDepartmentName(String departmentName) {
+        this.departmentName = departmentName;
+    }
+
+    public Contract getLatestContract() {
+        return latestContract;
+    }
+
+    public void setLatestContract(Contract latestContract) {
+        this.latestContract = latestContract;
+    }
+
     @Override
     public String toString() {
         return "Employee{" +
@@ -145,6 +165,8 @@ public class Employee {
                 ", departmentId=" + departmentId +
                 ", status=" + status +
                 ", position=" + position +
+                ", departmentName=" + departmentName +
+                ", latestContract=" + latestContract +
                 '}';
     }
 }
