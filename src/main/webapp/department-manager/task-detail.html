@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Task Detail</title>
+  <link rel="stylesheet" href="../assets/department-manager/css/style.css">
+  <link rel="stylesheet" href="../assets/department-manager/css/component.css">
+  <link rel="stylesheet" href="../assets/department-manager/css/dashboard.css">
+</head>
+<body>
+  <div class="dm-shell">
+    <aside class="dm-sidebar" data-sidebar></aside>
+    <div class="dm-main">
+      <header class="dm-topbar" data-topbar></header>
+      <main class="dm-content section-stack">
+        <section class="hero-panel">
+          <div>
+            <h2>Build onboarding analytics pack</h2>
+            <p>Assigned to Mai Tran, due Jun 10, 2026. Current state is in progress and on schedule.</p>
+          </div>
+          <div class="btn-row">
+            <button class="btn btn-secondary" data-toast="Task approved">Approve</button>
+            <button class="btn btn-danger" data-toast="Task rejected">Reject</button>
+          </div>
+        </section>
+
+        <section class="grid-2">
+          <article class="card">
+            <div class="card-header"><h3>Task Information</h3></div>
+            <div class="info-grid">
+              <div class="info-item"><span>Priority</span><strong>High</strong></div>
+              <div class="info-item"><span>Status</span><strong>In Progress</strong></div>
+              <div class="info-item"><span>Start Date</span><strong>Jun 1, 2026</strong></div>
+              <div class="info-item"><span>Due Date</span><strong>Jun 10, 2026</strong></div>
+            </div>
+          </article>
+          <article class="card">
+            <div class="card-header"><h3>Assigned Employee</h3></div>
+            <div class="profile-hero">
+              <span class="avatar">MT</span>
+              <div>
+                <h2>Mai Tran</h2>
+                <p>Senior HR Analyst &middot; 92% on-time delivery</p>
+              </div>
+            </div>
+          </article>
+        </section>
+
+        <section class="grid-2">
+          <article class="card">
+            <div class="card-header"><h3>Progress</h3><span class="badge progress">76%</span></div>
+            <div class="task-progress-summary">
+              <div class="progress-orb">76%</div>
+              <div>
+                <p>The data pull and manager interviews are complete. Final visualization polish is in progress.</p>
+                <div class="progress-track"><div class="progress-bar" style="width: 76%"></div></div>
+              </div>
+            </div>
+          </article>
+          <article class="card">
+            <div class="card-header"><h3>Timeline</h3></div>
+            <ul class="timeline">
+              <li class="timeline-item"><span class="timeline-dot">01</span><div><strong>Task created</strong><span>Nguyen Dang assigned the task on Jun 1.</span></div><span class="badge neutral">Created</span></li>
+              <li class="timeline-item"><span class="timeline-dot">02</span><div><strong>Work started</strong><span>Mai Tran accepted and began analysis.</span></div><span class="badge progress">Started</span></li>
+              <li class="timeline-item"><span class="timeline-dot">03</span><div><strong>Progress updated</strong><span>Dashboard draft submitted for review.</span></div><span class="badge pending">Review</span></li>
+            </ul>
+          </article>
+        </section>
+      </main>
+      <footer class="dm-footer" data-footer></footer>
+    </div>
+  </div>
+  <script src="../assets/department-manager/js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Department Analytics</title>
+  <link rel="stylesheet" href="../assets/department-manager/css/style.css">
+  <link rel="stylesheet" href="../assets/department-manager/css/component.css">
+  <link rel="stylesheet" href="../assets/department-manager/css/dashboard.css">
+</head>
+<body>
+  <div class="dm-shell">
+    <aside class="dm-sidebar" data-sidebar></aside>
+    <div class="dm-main">
+      <header class="dm-topbar" data-topbar></header>
+      <main class="dm-content section-stack">
+        <section class="hero-panel">
+          <div>
+            <h2>Department analytics for better decisions.</h2>
+            <p>Measure execution, approval trends, and employee productivity across the department portfolio.</p>
+          </div>
+          <div class="btn-row">
+            <button class="btn btn-secondary" data-toast="PDF export prepared">Export PDF</button>
+            <button class="btn btn-secondary" data-toast="Excel export prepared">Export Excel</button>
+          </div>
+        </section>
+
+        <section class="stats-grid">
+          <article class="stat-card"><div class="stat-top"><span class="stat-icon">PE</span><span class="trend">Stable</span></div><p>Total Employees</p><strong data-dashboard-metric="totalEmployees">48</strong></article>
+          <article class="stat-card"><div class="stat-top"><span class="stat-icon">TK</span><span class="trend">+14%</span></div><p>Completed Tasks</p><strong data-dashboard-metric="completedTasks">126</strong></article>
+          <article class="stat-card"><div class="stat-top"><span class="stat-icon">AP</span><span class="trend">68%</span></div><p>Approved Requests</p><strong data-request-status-metric="Approved">74</strong></article>
+          <article class="stat-card"><div class="stat-top"><span class="stat-icon">RJ</span><span class="trend warn">10%</span></div><p>Rejected Requests</p><strong data-request-status-metric="Rejected">11</strong></article>
+        </section>
+
+        <section class="report-chart-grid">
+          <article class="card">
+            <div class="card-header">
+              <div><h3>Monthly Task Completion</h3><p>Completed tasks over six months</p></div>
+            </div>
+            <div class="chart-box">
+              <canvas data-dashboard-chart="taskCompletion" data-chart="bar" data-labels='["Jan","Feb","Mar","Apr","May","Jun"]' data-values='[18,24,21,31,28,36]'></canvas>
+            </div>
+          </article>
+          <article class="card">
+            <div class="card-header">
+              <div><h3>Request Trends</h3><p>Monthly request volume</p></div>
+            </div>
+            <div class="chart-box">
+              <canvas data-dashboard-chart="requestStatistics" data-chart="line" data-labels='["Approved","Pending","Rejected"]' data-values='[74,18,11]'></canvas>
+            </div>
+          </article>
+        </section>
+
+        <section class="grid-2">
+          <article class="card">
+            <div class="card-header">
+              <div><h3>Productivity Analysis</h3><p>Top employee delivery indicators</p></div>
+            </div>
+            <div class="productivity-list">
+              <div class="productivity-row">
+                <div class="productivity-row-header"><span>Mai Tran</span><span>94%</span></div>
+                <div class="progress-track"><div class="progress-bar" style="width: 94%"></div></div>
+              </div>
+              <div class="productivity-row">
+                <div class="productivity-row-header"><span>Huy Pham</span><span>89%</span></div>
+                <div class="progress-track"><div class="progress-bar" style="width: 89%"></div></div>
+              </div>
+              <div class="productivity-row">
+                <div class="productivity-row-header"><span>Lan Nguyen</span><span>81%</span></div>
+                <div class="progress-track"><div class="progress-bar" style="width: 81%"></div></div>
+              </div>
+              <div class="productivity-row">
+                <div class="productivity-row-header"><span>Quang Do</span><span>76%</span></div>
+                <div class="progress-track"><div class="progress-bar" style="width: 76%"></div></div>
+              </div>
+            </div>
+          </article>
+          <article class="card">
+            <div class="card-header">
+              <div><h3>Approval Mix</h3><p>Department request quality</p></div>
+            </div>
+            <div class="chart-box">
+              <canvas data-dashboard-chart="requestStatistics" data-chart="donut" data-labels='["Approved","Pending","Rejected"]' data-values='[74,18,11]'></canvas>
+            </div>
+          </article>
+        </section>
+      </main>
+      <footer class="dm-footer" data-footer></footer>
+    </div>
+  </div>
+  <script src="../assets/department-manager/js/app.js"></script>
+</body>
+</html>

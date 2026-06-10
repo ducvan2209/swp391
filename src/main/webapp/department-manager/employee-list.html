@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Department Employee List</title>
+  <link rel="stylesheet" href="../assets/department-manager/css/style.css">
+  <link rel="stylesheet" href="../assets/department-manager/css/component.css">
+  <link rel="stylesheet" href="../assets/department-manager/css/dashboard.css">
+</head>
+<body>
+  <div class="dm-shell">
+    <aside class="dm-sidebar" data-sidebar></aside>
+    <div class="dm-main">
+      <header class="dm-topbar" data-topbar></header>
+      <main class="dm-content section-stack">
+        <section class="hero-panel">
+          <div>
+            <h2>People operations with clarity.</h2>
+            <p>Search employees, filter by current status, and open detailed profiles for workload and request history.</p>
+          </div>
+          <a class="btn btn-secondary" href="employee-detail.html">View Featured Profile</a>
+        </section>
+
+        <section class="card" data-table-card>
+          <div class="card-header">
+            <div>
+              <h3>Department Employee List</h3>
+              <p>48 employees in IT Department</p>
+            </div>
+          </div>
+          <div class="toolbar">
+            <div class="toolbar-group">
+              <input type="search" placeholder="Search employee" data-table-search>
+              <select data-table-filter aria-label="Filter employee status">
+                <option>All</option>
+                <option>Active</option>
+                <option>Probation</option>
+                <option>Remote</option>
+              </select>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Avatar</th>
+                  <th>Employee ID</th>
+                  <th>Name</th>
+                  <th>Position</th>
+                  <th>Email</th>
+                  <th>Phone</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr data-status="Active">
+                  <td><span class="avatar">MT</span></td>
+                  <td>EMP-1042</td>
+                  <td><a href="employee-detail.html"><strong>Mai Tran</strong></a></td>
+                  <td>Senior HR Analyst</td>
+                  <td>mai.tran@company.com</td>
+                  <td>090 224 1188</td>
+                  <td><span class="badge success">Active</span></td>
+                </tr>
+                <tr data-status="Active">
+                  <td><span class="avatar">HP</span></td>
+                  <td>EMP-1091</td>
+                  <td><strong>Huy Pham</strong></td>
+                  <td>Payroll Specialist</td>
+                  <td>huy.pham@company.com</td>
+                  <td>091 330 4412</td>
+                  <td><span class="badge success">Active</span></td>
+                </tr>
+                <tr data-status="Probation">
+                  <td><span class="avatar">LN</span></td>
+                  <td>EMP-1178</td>
+                  <td><strong>Lan Nguyen</strong></td>
+                  <td>Talent Coordinator</td>
+                  <td>lan.nguyen@company.com</td>
+                  <td>098 225 7120</td>
+                  <td><span class="badge pending">Probation</span></td>
+                </tr>
+                <tr data-status="Remote">
+                  <td><span class="avatar">QD</span></td>
+                  <td>EMP-1210</td>
+                  <td><strong>Quang Do</strong></td>
+                  <td>HR Systems Analyst</td>
+                  <td>quang.do@company.com</td>
+                  <td>093 881 4400</td>
+                  <td><span class="badge progress">Remote</span></td>
+                </tr>
+                <tr data-status="Active">
+                  <td><span class="avatar">AT</span></td>
+                  <td>EMP-1224</td>
+                  <td><strong>Anh Truong</strong></td>
+                  <td>Employee Relations Lead</td>
+                  <td>anh.truong@company.com</td>
+                  <td>097 112 6420</td>
+                  <td><span class="badge success">Active</span></td>
+                </tr>
+                <tr data-empty-row hidden><td colspan="7" class="empty-row">No employees match the current filters.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </main>
+      <footer class="dm-footer" data-footer></footer>
+    </div>
+  </div>
+  <script src="../assets/department-manager/js/app.js"></script>
+</body>
+</html>

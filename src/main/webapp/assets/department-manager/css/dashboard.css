@@ -1,0 +1,81 @@
+.dashboard-split {
+  display: grid;
+  grid-template-columns: minmax(0, 1.45fr) minmax(340px, 0.85fr);
+  gap: 24px;
+}
+
+.report-chart-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.95fr);
+  gap: 24px;
+}
+
+.productivity-list {
+  display: grid;
+  gap: 15px;
+}
+
+.productivity-row {
+  display: grid;
+  gap: 8px;
+}
+
+.productivity-row-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  color: var(--deep-green);
+  font-weight: 800;
+}
+
+.approval-history {
+  border-left: 2px solid var(--mint);
+  padding-left: 16px;
+}
+
+.approval-history .timeline-item {
+  position: relative;
+}
+
+.approval-history .timeline-item::before {
+  content: "";
+  position: absolute;
+  left: -23px;
+  top: 28px;
+  width: 10px;
+  height: 10px;
+  border: 3px solid #ffffff;
+  border-radius: 50%;
+  background: var(--accent-green);
+  box-shadow: 0 0 0 2px var(--mint);
+}
+
+.task-progress-summary {
+  display: grid;
+  grid-template-columns: 160px minmax(0, 1fr);
+  gap: 24px;
+  align-items: center;
+}
+
+.progress-orb {
+  width: 150px;
+  height: 150px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  color: var(--deep-green);
+  background:
+    radial-gradient(circle closest-side, #ffffff 72%, transparent 73%),
+    conic-gradient(var(--accent-green) 0 76%, #e2e7df 76% 100%);
+  box-shadow: var(--shadow-sm);
+  font-size: 30px;
+  font-weight: 800;
+}
+
+@media (max-width: 1160px) {
+  .dashboard-split,
+  .report-chart-grid,
+  .task-progress-summary {
+    grid-template-columns: 1fr;
+  }
+}

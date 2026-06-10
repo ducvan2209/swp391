@@ -12,6 +12,7 @@ public class MailRequest {
     private String reason;
     private String status;
     private Integer approvedBy;
+    private String employeeName;
 
     public MailRequest() {}
 
@@ -107,6 +108,14 @@ public class MailRequest {
 
     public void setApprovedBy(Integer approvedBy) {
         this.approvedBy = approvedBy;
+    }
+
+    public String getEmployeeName() {
+        return employeeName;
+    }
+
+    public void setEmployeeName(String employeeName) {
+        this.employeeName = employeeName;
     }
 
     @Override

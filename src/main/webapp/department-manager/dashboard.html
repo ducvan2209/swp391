@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Department Manager Dashboard</title>
+  <link rel="stylesheet" href="../assets/department-manager/css/style.css">
+  <link rel="stylesheet" href="../assets/department-manager/css/component.css">
+  <link rel="stylesheet" href="../assets/department-manager/css/dashboard.css">
+</head>
+<body>
+  <div class="dm-shell">
+    <aside class="dm-sidebar" data-sidebar></aside>
+    <div class="dm-main">
+      <header class="dm-topbar" data-topbar></header>
+      <main class="dm-content section-stack">
+        <section class="hero-panel">
+          <div>
+            <h2>Good morning, your department is moving with momentum.</h2>
+            <p>Monitor requests, task delivery, employee workload, and team health from one focused manager workspace.</p>
+          </div>
+          <div class="hero-metric">
+            <span>Delivery Health</span>
+            <strong data-dashboard-metric="deliveryHealth" data-suffix="%">82%</strong>
+          </div>
+        </section>
+
+        <section class="stats-grid" aria-label="Department dashboard metrics">
+          <article class="stat-card">
+            <div class="stat-top"><span class="stat-icon">PE</span><span class="trend">+6 this quarter</span></div>
+            <p>Total Employees</p>
+            <strong data-dashboard-metric="totalEmployees">48</strong>
+          </article>
+          <article class="stat-card">
+            <div class="stat-top"><span class="stat-icon">RQ</span><span class="trend warn">Needs review</span></div>
+            <p>Pending Requests</p>
+            <strong data-dashboard-metric="pendingRequests">12</strong>
+          </article>
+          <article class="stat-card">
+            <div class="stat-top"><span class="stat-icon">TS</span><span class="trend">4 due today</span></div>
+            <p>Pending Tasks</p>
+            <strong data-dashboard-metric="pendingTasks">18</strong>
+          </article>
+          <article class="stat-card">
+            <div class="stat-top"><span class="stat-icon">OK</span><span class="trend">+14%</span></div>
+            <p>Completed Tasks</p>
+            <strong data-dashboard-metric="completedTasks">126</strong>
+          </article>
+        </section>
+
+        <section class="dashboard-split">
+          <div class="grid-2">
+            <article class="card">
+              <div class="card-header">
+                <div>
+                  <h3>Task Completion</h3>
+                  <p>Monthly completed assignments</p>
+                </div>
+              </div>
+              <div class="chart-box">
+                <canvas data-dashboard-chart="taskCompletion" data-chart="bar" data-labels='["Jan","Feb","Mar","Apr","May","Jun"]' data-values='[18,24,21,31,28,36]'></canvas>
+              </div>
+            </article>
+            <article class="card">
+              <div class="card-header">
+                <div>
+                  <h3>Request Statistics</h3>
+                  <p>Approved, pending, rejected mix</p>
+                </div>
+              </div>
+              <div class="chart-box">
+                <canvas data-dashboard-chart="requestStatistics" data-chart="donut" data-labels='["Approved","Pending","Rejected"]' data-values='[68,22,10]'></canvas>
+              </div>
+            </article>
+          </div>
+
+          <article class="card">
+            <div class="card-header">
+              <div>
+                <h3>Recent Activities</h3>
+                <p>Requests and task updates</p>
+              </div>
+            </div>
+            <ul class="activity-list" data-dashboard-activities>
+              <li class="activity-item">
+                <span class="activity-dot">LV</span>
+                <div><strong>Leave request submitted</strong><span>Mai Tran requested annual leave for Jun 14-18.</span></div>
+                <span class="badge pending">Pending</span>
+              </li>
+              <li class="activity-item">
+                <span class="activity-dot">TK</span>
+                <div><strong>Payroll audit task completed</strong><span>Huy Pham closed the Q2 audit checklist.</span></div>
+                <span class="badge success">Done</span>
+              </li>
+              <li class="activity-item">
+                <span class="activity-dot">RQ</span>
+                <div><strong>Training petition updated</strong><span>Lan Nguyen added budget attachment.</span></div>
+                <span class="badge progress">Updated</span>
+              </li>
+              <li class="activity-item">
+                <span class="activity-dot">DL</span>
+                <div><strong>Task due date changed</strong><span>Recruitment dashboard due date moved to Jun 10.</span></div>
+                <span class="badge neutral">Changed</span>
+              </li>
+            </ul>
+          </article>
+        </section>
+      </main>
+      <footer class="dm-footer" data-footer></footer>
+    </div>
+  </div>
+  <script src="../assets/department-manager/js/app.js"></script>
+</body>
+</html>

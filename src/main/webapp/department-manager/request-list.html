@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Request Approval</title>
+  <link rel="stylesheet" href="../assets/department-manager/css/style.css">
+  <link rel="stylesheet" href="../assets/department-manager/css/component.css">
+  <link rel="stylesheet" href="../assets/department-manager/css/dashboard.css">
+</head>
+<body>
+  <div class="dm-shell">
+    <aside class="dm-sidebar" data-sidebar></aside>
+    <div class="dm-main">
+      <header class="dm-topbar" data-topbar></header>
+      <main class="dm-content section-stack">
+        <section class="hero-panel">
+          <div>
+            <h2>Approve employee requests with context.</h2>
+            <p>Review leave, resignation, petition, and policy requests with clear status and quick actions.</p>
+          </div>
+          <div class="hero-metric"><span>Pending Today</span><strong>12</strong></div>
+        </section>
+
+        <section class="card" data-table-card>
+          <div class="card-header">
+            <div>
+              <h3>Request Approval</h3>
+              <p>Manager approval queue</p>
+            </div>
+          </div>
+          <div class="toolbar">
+            <div class="toolbar-group">
+              <input type="search" placeholder="Search request" data-table-search>
+              <select data-table-filter aria-label="Filter request status">
+                <option>All</option>
+                <option>Pending</option>
+                <option>Approved</option>
+                <option>Rejected</option>
+              </select>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Request Type</th>
+                  <th>Employee</th>
+                  <th>Date</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr data-status="Pending">
+                  <td><strong>Annual Leave</strong></td>
+                  <td>Mai Tran</td>
+                  <td>Jun 4, 2026</td>
+                  <td><span class="badge pending">Pending</span></td>
+                  <td><div class="btn-row"><a class="btn btn-ghost" href="request-detail.html">View</a><button class="btn btn-ghost" data-toast="Request approved">Approve</button><button class="btn btn-ghost" data-toast="Request rejected">Reject</button></div></td>
+                </tr>
+                <tr data-status="Pending">
+                  <td><strong>Training Petition</strong></td>
+                  <td>Lan Nguyen</td>
+                  <td>Jun 3, 2026</td>
+                  <td><span class="badge pending">Pending</span></td>
+                  <td><div class="btn-row"><a class="btn btn-ghost" href="request-detail.html">View</a><button class="btn btn-ghost" data-toast="Request approved">Approve</button><button class="btn btn-ghost" data-toast="Request rejected">Reject</button></div></td>
+                </tr>
+                <tr data-status="Approved">
+                  <td><strong>Remote Work</strong></td>
+                  <td>Quang Do</td>
+                  <td>May 29, 2026</td>
+                  <td><span class="badge success">Approved</span></td>
+                  <td><a class="btn btn-ghost" href="request-detail.html">View</a></td>
+                </tr>
+                <tr data-status="Rejected">
+                  <td><strong>Unpaid Leave</strong></td>
+                  <td>Huy Pham</td>
+                  <td>May 24, 2026</td>
+                  <td><span class="badge danger">Rejected</span></td>
+                  <td><a class="btn btn-ghost" href="request-detail.html">View</a></td>
+                </tr>
+                <tr data-empty-row hidden><td colspan="5" class="empty-row">No requests match the current filters.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </main>
+      <footer class="dm-footer" data-footer></footer>
+    </div>
+  </div>
+  <script src="../assets/department-manager/js/app.js"></script>
+</body>
+</html>

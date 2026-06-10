@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Request Detail</title>
+  <link rel="stylesheet" href="../assets/department-manager/css/style.css">
+  <link rel="stylesheet" href="../assets/department-manager/css/component.css">
+  <link rel="stylesheet" href="../assets/department-manager/css/dashboard.css">
+</head>
+<body>
+  <div class="dm-shell">
+    <aside class="dm-sidebar" data-sidebar></aside>
+    <div class="dm-main">
+      <header class="dm-topbar" data-topbar></header>
+      <main class="dm-content section-stack">
+        <section class="hero-panel">
+          <div>
+            <h2>Annual Leave Request</h2>
+            <p>Mai Tran requested leave from Jun 14 to Jun 18, 2026. Coverage plan has been attached.</p>
+          </div>
+          <div class="btn-row">
+            <button class="btn btn-secondary" data-toast="Request approved">Approve Request</button>
+            <button class="btn btn-danger" data-toast="Request rejected">Reject Request</button>
+          </div>
+        </section>
+
+        <section class="grid-2">
+          <article class="card">
+            <div class="card-header"><h3>Employee Information</h3></div>
+            <div class="profile-hero">
+              <span class="avatar">MT</span>
+              <div>
+                <h2>Mai Tran</h2>
+                <p>Senior HR Analyst &middot; EMP-1042 &middot; Active</p>
+              </div>
+            </div>
+          </article>
+          <article class="card">
+            <div class="card-header"><h3>Request Information</h3></div>
+            <div class="info-grid">
+              <div class="info-item"><span>Type</span><strong>Annual Leave</strong></div>
+              <div class="info-item"><span>Status</span><strong>Pending</strong></div>
+              <div class="info-item"><span>Submitted</span><strong>Jun 4, 2026</strong></div>
+              <div class="info-item"><span>Duration</span><strong>5 working days</strong></div>
+            </div>
+          </article>
+        </section>
+
+        <section class="grid-2">
+          <article class="card">
+            <div class="card-header"><h3>Reason</h3></div>
+            <p>Mai is requesting planned annual leave for a family trip. Current task handoff is documented and urgent requests will be covered by Lan Nguyen.</p>
+            <div class="info-item">
+              <span>Attachment</span>
+              <strong>leave-coverage-plan.pdf</strong>
+            </div>
+          </article>
+          <article class="card">
+            <div class="card-header"><h3>Approval History</h3></div>
+            <ul class="timeline approval-history">
+              <li class="timeline-item"><span class="timeline-dot">01</span><div><strong>Submitted</strong><span>Employee submitted request on Jun 4.</span></div><span class="badge neutral">Logged</span></li>
+              <li class="timeline-item"><span class="timeline-dot">02</span><div><strong>HR pre-check</strong><span>Leave balance and policy checked.</span></div><span class="badge success">Passed</span></li>
+              <li class="timeline-item"><span class="timeline-dot">03</span><div><strong>Manager decision</strong><span>Awaiting department manager review.</span></div><span class="badge pending">Pending</span></li>
+            </ul>
+          </article>
+        </section>
+      </main>
+      <footer class="dm-footer" data-footer></footer>
+    </div>
+  </div>
+  <script src="../assets/department-manager/js/app.js"></script>
+</body>
+</html>

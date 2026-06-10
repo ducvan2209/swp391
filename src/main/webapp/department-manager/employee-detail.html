@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Employee Detail</title>
+  <link rel="stylesheet" href="../assets/department-manager/css/style.css">
+  <link rel="stylesheet" href="../assets/department-manager/css/component.css">
+  <link rel="stylesheet" href="../assets/department-manager/css/dashboard.css">
+</head>
+<body>
+  <div class="dm-shell">
+    <aside class="dm-sidebar" data-sidebar></aside>
+    <div class="dm-main">
+      <header class="dm-topbar" data-topbar></header>
+      <main class="dm-content section-stack">
+        <section class="card">
+          <div class="profile-hero">
+            <span class="avatar">MT</span>
+            <div>
+              <h2>Mai Tran</h2>
+              <p>Senior HR Analyst &middot; IT Department &middot; EMP-1042</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="grid-2">
+          <article class="card">
+            <div class="card-header"><h3>Personal Information</h3></div>
+            <div class="info-grid">
+              <div class="info-item"><span>Email</span><strong>mai.tran@company.com</strong></div>
+              <div class="info-item"><span>Phone</span><strong>090 224 1188</strong></div>
+              <div class="info-item"><span>Date of Birth</span><strong>March 12, 1993</strong></div>
+              <div class="info-item"><span>Address</span><strong>District 7, Ho Chi Minh City</strong></div>
+            </div>
+          </article>
+          <article class="card">
+            <div class="card-header"><h3>Employment Information</h3></div>
+            <div class="info-grid">
+              <div class="info-item"><span>Position</span><strong>Senior HR Analyst</strong></div>
+              <div class="info-item"><span>Status</span><strong>Active</strong></div>
+              <div class="info-item"><span>Start Date</span><strong>January 6, 2021</strong></div>
+              <div class="info-item"><span>Manager</span><strong>Nguyen Dang</strong></div>
+            </div>
+          </article>
+        </section>
+
+        <section class="grid-2">
+          <article class="card">
+            <div class="card-header">
+              <div><h3>Task Summary</h3><p>Current delivery profile</p></div>
+              <span class="badge success">92% On Time</span>
+            </div>
+            <div class="stats-grid">
+              <div class="stat-card"><p>Assigned</p><strong>18</strong><span class="trend">This quarter</span></div>
+              <div class="stat-card"><p>Completed</p><strong>16</strong><span class="trend">Excellent</span></div>
+              <div class="stat-card"><p>In Progress</p><strong>2</strong><span class="trend warn">Due soon</span></div>
+              <div class="stat-card"><p>Overdue</p><strong>0</strong><span class="trend">Clean</span></div>
+            </div>
+          </article>
+          <article class="card">
+            <div class="card-header">
+              <div><h3>Request Summary</h3><p>Leave and petition history</p></div>
+              <span class="badge pending">1 Pending</span>
+            </div>
+            <ul class="activity-list">
+              <li class="activity-item"><span class="activity-dot">LV</span><div><strong>Annual Leave</strong><span>Jun 14-18, 2026</span></div><span class="badge pending">Pending</span></li>
+              <li class="activity-item"><span class="activity-dot">TR</span><div><strong>Training Petition</strong><span>Approved leadership course</span></div><span class="badge success">Approved</span></li>
+              <li class="activity-item"><span class="activity-dot">WF</span><div><strong>Remote Work</strong><span>Approved hybrid arrangement</span></div><span class="badge success">Approved</span></li>
+            </ul>
+          </article>
+        </section>
+      </main>
+      <footer class="dm-footer" data-footer></footer>
+    </div>
+  </div>
+  <script src="../assets/department-manager/js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Task Management</title>
+  <link rel="stylesheet" href="../assets/department-manager/css/style.css">
+  <link rel="stylesheet" href="../assets/department-manager/css/component.css">
+  <link rel="stylesheet" href="../assets/department-manager/css/dashboard.css">
+</head>
+<body>
+  <div class="dm-shell">
+    <aside class="dm-sidebar" data-sidebar></aside>
+    <div class="dm-main">
+      <header class="dm-topbar" data-topbar></header>
+      <main class="dm-content section-stack">
+        <section class="hero-panel">
+          <div>
+            <h2>Plan, assign, and monitor department work.</h2>
+            <p>Track ownership, due dates, priorities, and delivery status for every active department task.</p>
+          </div>
+          <a class="btn btn-secondary" href="task-create.html">Create Task</a>
+        </section>
+
+        <section class="card" data-table-card>
+          <div class="card-header">
+            <div>
+              <h3>Task Management</h3>
+              <p>Active task portfolio</p>
+            </div>
+            <a class="btn btn-primary" href="task-create.html">Create Task</a>
+          </div>
+          <div class="toolbar">
+            <div class="toolbar-group">
+              <input type="search" placeholder="Search task" data-table-search>
+              <select data-table-filter aria-label="Filter task status">
+                <option>All</option>
+                <option>Waiting</option>
+                <option>In Progress</option>
+                <option>Completed</option>
+                <option>Rejected</option>
+              </select>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Task Name</th>
+                  <th>Assigned Employee</th>
+                  <th>Start Date</th>
+                  <th>Due Date</th>
+                  <th>Priority</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr data-status="In Progress">
+                  <td><a href="task-detail.html"><strong>Build onboarding analytics pack</strong></a></td>
+                  <td>Mai Tran</td>
+                  <td>Jun 1, 2026</td>
+                  <td>Jun 10, 2026</td>
+                  <td><span class="badge danger">High</span></td>
+                  <td><span class="badge progress">In Progress</span></td>
+                  <td><div class="btn-row"><a class="btn btn-ghost" href="task-detail.html">View</a><button class="btn btn-ghost" data-toast="Task opened for editing">Edit</button></div></td>
+                </tr>
+                <tr data-status="Waiting">
+                  <td><strong>Review hiring request template</strong></td>
+                  <td>Lan Nguyen</td>
+                  <td>Jun 4, 2026</td>
+                  <td>Jun 12, 2026</td>
+                  <td><span class="badge pending">Medium</span></td>
+                  <td><span class="badge pending">Waiting</span></td>
+                  <td><div class="btn-row"><button class="btn btn-ghost" data-toast="Task moved to archive">Delete</button></div></td>
+                </tr>
+                <tr data-status="Completed">
+                  <td><strong>Finalize payroll audit checklist</strong></td>
+                  <td>Huy Pham</td>
+                  <td>May 20, 2026</td>
+                  <td>May 29, 2026</td>
+                  <td><span class="badge neutral">Low</span></td>
+                  <td><span class="badge success">Completed</span></td>
+                  <td><a class="btn btn-ghost" href="task-detail.html">View</a></td>
+                </tr>
+                <tr data-status="Rejected">
+                  <td><strong>Legacy access review</strong></td>
+                  <td>Quang Do</td>
+                  <td>May 18, 2026</td>
+                  <td>May 25, 2026</td>
+                  <td><span class="badge pending">Medium</span></td>
+                  <td><span class="badge danger">Rejected</span></td>
+                  <td><button class="btn btn-ghost" data-toast="Revision requested">Edit</button></td>
+                </tr>
+                <tr data-empty-row hidden><td colspan="7" class="empty-row">No tasks match the current filters.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </main>
+      <footer class="dm-footer" data-footer></footer>
+    </div>
+  </div>
+  <script src="../assets/department-manager/js/app.js"></script>
+</body>
+</html>

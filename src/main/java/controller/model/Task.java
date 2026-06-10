@@ -10,6 +10,9 @@ public class Task {
     private LocalDate startDate;
     private LocalDate dueDate;
     private String status;
+    private Integer assignedEmployeeId;
+    private String assignedEmployeeName;
+    private String priority;
 
     public Task() {}
 
@@ -85,6 +88,30 @@ public class Task {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public Integer getAssignedEmployeeId() {
+        return assignedEmployeeId;
+    }
+
+    public void setAssignedEmployeeId(Integer assignedEmployeeId) {
+        this.assignedEmployeeId = assignedEmployeeId;
+    }
+
+    public String getAssignedEmployeeName() {
+        return assignedEmployeeName;
+    }
+
+    public void setAssignedEmployeeName(String assignedEmployeeName) {
+        this.assignedEmployeeName = assignedEmployeeName;
+    }
+
+    public String getPriority() {
+        return priority;
+    }
+
+    public void setPriority(String priority) {
+        this.priority = priority;
     }
 
     @Override

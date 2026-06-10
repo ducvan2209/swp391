@@ -1,3 +1,4 @@
+data base đã sửa thêm with gg
 -- =====================================================
 -- HRM DATABASE - SCRIPT GỘP HOÀN CHỈNH
 -- Kết hợp tất cả bảng, dữ liệu, hàm và stored procedures
@@ -149,20 +150,50 @@ CREATE TABLE IF NOT EXISTS Payroll (
         ON DELETE SET NULL
 );
 
--- 10. SYSTEM USER (Bảng người dùng hệ thống)
+-- 10. SYSTEM USER (Phiên bản hỗ trợ Google Login)
+
 CREATE TABLE IF NOT EXISTS SystemUser (
     UserID INT AUTO_INCREMENT PRIMARY KEY,
+
     Username VARCHAR(100) UNIQUE NOT NULL,
-    Password VARCHAR(255) NOT NULL,
+
+    Email VARCHAR(150) UNIQUE NOT NULL,
+
+    PasswordHash VARCHAR(255) NULL,
+
+    GoogleID VARCHAR(255) UNIQUE NULL,
+
+    AvatarUrl VARCHAR(500) NULL,
+
+    LoginProvider ENUM(
+        'LOCAL',
+        'GOOGLE'
+    ) DEFAULT 'LOCAL',
+
     RoleID INT NOT NULL,
-    LastLogin DATETIME,
-    IsActive BOOLEAN DEFAULT TRUE,
-    CreatedDate DATETIME DEFAULT CURRENT_TIMESTAMP,
+
     EmployeeID INT UNIQUE,
-    CONSTRAINT fk_systemuser_role FOREIGN KEY (RoleID)
+
+    FailedLoginAttempt INT DEFAULT 0,
+
+    LockedUntil DATETIME NULL,
+
+    LastLogin DATETIME NULL,
+
+    IsActive BOOLEAN DEFAULT TRUE,
+
+    CreatedDate DATETIME DEFAULT CURRENT_TIMESTAMP,
+
+    UpdatedDate DATETIME DEFAULT CURRENT_TIMESTAMP
+    ON UPDATE CURRENT_TIMESTAMP,
+
+    CONSTRAINT fk_systemuser_role
+        FOREIGN KEY (RoleID)
         REFERENCES Role(RoleID)
         ON DELETE CASCADE,
-    CONSTRAINT fk_systemuser_employee FOREIGN KEY (EmployeeID)
+
+    CONSTRAINT fk_systemuser_employee
+        FOREIGN KEY (EmployeeID)
         REFERENCES Employee(EmployeeID)
         ON DELETE SET NULL
 );
@@ -357,7 +388,24 @@ CREATE TABLE IF NOT EXISTS UserPermission (
         ON DELETE SET NULL,
     UNIQUE KEY uq_user_permission (UserID, PermissionID, Scope, ScopeValue)
 );
+-- 23 :PasswordResetToken ( Forgot Password dùng để tajo 1 token gửi về mail để lấy lại mk)
+CREATE TABLE IF NOT EXISTS PasswordResetToken (
+    TokenID INT AUTO_INCREMENT PRIMARY KEY,
 
+    UserID INT NOT NULL,
+
+    Token VARCHAR(255) NOT NULL,
+
+    ExpiredAt DATETIME NOT NULL,
+
+    IsUsed BOOLEAN DEFAULT FALSE,
+
+    CreatedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (UserID)
+        REFERENCES SystemUser(UserID)
+        ON DELETE CASCADE
+);
 -- =====================================================
 -- PHẦN III: CHÈN DỮ LIỆU MẪU
 -- =====================================================
@@ -414,14 +462,73 @@ VALUES
 (10,'2022-02-01', NULL, 12000000, 1000000, 'Intern', 'Internship program', 'Active');
 
 -- ===== SYSTEM USER =====
-INSERT INTO SystemUser (Username, Password, RoleID, EmployeeID)
+INSERT INTO SystemUser
+(
+    Username,
+    Email,
+    PasswordHash,
+    GoogleID,
+    AvatarUrl,
+    LoginProvider,
+    RoleID,
+    EmployeeID
+)
 VALUES
-('admin123456', '12345678', 1, 1),
-('hrb123456', '12345678', 2, 2),
-('financec123', '12345678', 3, 3),
-('it_f', '12345678', 4, 5),
-('dev_f', '12345678', 5, 6),
-('market_h', '12345678', 5, 8);
+
+(
+    'admin',
+    'admin@hrm.com',
+    '12345678',
+    NULL,
+    NULL,
+    'LOCAL',
+    1,
+    1
+),
+
+(
+    'hrmanager',
+    'hrmanager@hrm.com',
+    '12345678',
+    NULL,
+    NULL,
+    'LOCAL',
+    2,
+    2
+),
+
+(
+    'finance',
+    'finance@hrm.com',
+    '12345678',
+    NULL,
+    NULL,
+    'LOCAL',
+    3,
+    3
+),
+
+(
+    'developer',
+    'developer@hrm.com',
+    '12345678',
+    NULL,
+    NULL,
+    'LOCAL',
+    5,
+    6
+),
+
+(
+    'google_user',
+    'googleuser@gmail.com',
+    NULL,
+    '115784512365478965214',
+    'https://lh3.googleusercontent.com/avatar',
+    'GOOGLE',
+    5,
+    NULL
+);
 
 -- ===== TASK =====
 INSERT INTO Task (Title, Description, AssignedBy, StartDate, DueDate, Status)
